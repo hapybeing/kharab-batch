@@ -1,0 +1,1 @@
+{"name":"kharab-batch-web","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build"},"devDependencies":{"@preact/preset-vite":"^2.10.6","vite":"^5.4.21"},"dependencies":{"preact":"^11.0.1"}}

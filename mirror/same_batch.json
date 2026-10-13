@@ -1,0 +1,5 @@
+{
+  "_note": "Hand-judged equivalences (work/verify, 13 Oct 2026): state batch → national batch judged to be the same batch of the same product although the product strings share no distinctive word, or the batch strings differ by one character. Each was read by hand against the national row.",
+  "ka": { "XH24IC007": "XH24IC007", "CTQ227": "CTQ227", "HCL5154": "HCL5154", "M24317": "M24317", "HTT24001": "NTT24001", "TC250238A": "TCS250238A" },
+  "mh": { "ABT25223": "ABT25223", "2506006": "2506006", "075T113": "075T113", "APT241290": "APT241290", "ONS124": "ONS124", "RBZ25065": "RBZ25065", "MEX042": "MEX042", "A5OAX026": "A50AX026", "AL25089": "AI25089" }
+}

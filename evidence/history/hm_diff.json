@@ -1,0 +1,699 @@
+[
+ [
+  "Apr-2026",
+  "CDSCO",
+  42,
+  42,
+  [],
+  []
+ ],
+ [
+  "Apr-2026",
+  "States",
+  78,
+  79,
+  [
+   22,
+   71
+  ],
+  [
+   [
+    "GT501287a",
+    "FDAL, Mumbai"
+   ],
+   [
+    "2506006",
+    "FDAL, Mumbai"
+   ]
+  ]
+ ],
+ [
+  "Dec-2025",
+  "CDSCO",
+  74,
+  71,
+  [
+   13,
+   34,
+   42,
+   45
+  ],
+  []
+ ],
+ [
+  "Dec-2025",
+  "States",
+  93,
+  104,
+  [
+   34,
+   35,
+   36,
+   41,
+   92
+  ],
+  [
+   [
+    "URDT0328",
+    "DTL  Udaipur"
+   ],
+   [
+    "EE-240604",
+    "DTL  Udaipur"
+   ],
+   [
+    "TR25C042C",
+    "DTL  Jodhpur"
+   ],
+   [
+    "PCT1203",
+    "DTL  Jodhpur"
+   ],
+   [
+    "TA25530",
+    "DTL Jaipur"
+   ],
+   [
+    "YLT25023",
+    "DTL, Jaipur"
+   ],
+   [
+    "LT-25029",
+    "DTL, Jaipur"
+   ],
+   [
+    "SSPT-01929",
+    "DTL, Jaipur"
+   ],
+   [
+    "RT2506062",
+    "DTL, Jaipur"
+   ],
+   [
+    "BS25061",
+    "DTL, Jaipur"
+   ],
+   [
+    "BCB01AAA",
+    "DTL, Jaipur"
+   ],
+   [
+    "PCGT-25013",
+    "DTL, Jaipur"
+   ],
+   [
+    "REN027",
+    "DTL, Jaipur"
+   ],
+   [
+    "PGC25-08",
+    "DTL, Udaipur"
+   ]
+  ]
+ ],
+ [
+  "Feb-2026",
+  "CDSCO",
+  60,
+  60,
+  [
+   5,
+   54
+  ],
+  []
+ ],
+ [
+  "Feb-2026",
+  "States",
+  134,
+  157,
+  [
+   50
+  ],
+  [
+   [
+    "E9AIY029",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "RPL-1013",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "DR010",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "ST251442",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "2526016",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "A-1978",
+    "Government of NCT of D"
+   ],
+   [
+    "A-1980",
+    "Government of NCT of D"
+   ],
+   [
+    "ADH24148A",
+    "Maharashtra"
+   ],
+   [
+    "DT-035",
+    "Uttar Pradesh"
+   ],
+   [
+    "SP24193",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "9190090325",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "DLT-1431",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "ASB02B25",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "18252131A",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "C032506",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "BR649",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "ABSL25-0069",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "NPL-5105",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "NPL-5105",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "ANT-1925",
+    "FDTL,Uttarakhand"
+   ],
+   [
+    "GE25077",
+    "FDTL,Uttarakhand"
+   ]
+  ]
+ ],
+ [
+  "Jun-2026",
+  "CDSCO",
+  27,
+  27,
+  [],
+  []
+ ],
+ [
+  "Jun-2026",
+  "States",
+  132,
+  166,
+  [
+   128
+  ],
+  [
+   [
+    "SS004",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "CMHP26001",
+    "SDTL,Andhra Pradesh, V"
+   ],
+   [
+    "NAP-25068",
+    "SDTL,Andhra Pradesh, V"
+   ],
+   [
+    "3172",
+    "DRUG TESTING LABORATOR"
+   ],
+   [
+    "PRT-250229",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "TI-2411",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "HEL-2433",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "DI115132",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "PCT25058",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "GT25943",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "HL24152",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "25F170",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "CFR-Y15",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "SHT-26877",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "M24317",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "18253692A",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "CT24251187B",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GT301348",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "25I-T1749",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "AZ/L/01/5005",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "PS006",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "UT-969",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "PAK-752",
+    "DTL, Konni"
+   ],
+   [
+    "PAK-619",
+    "DTL, Konni"
+   ],
+   [
+    "D251058A",
+    "RDTL, Ernakulam"
+   ],
+   [
+    "DG5034",
+    "DTL TVPM"
+   ],
+   [
+    "MT260002",
+    "RDTL Ernakulam"
+   ],
+   [
+    "PAK-628",
+    "DTL, TVPM"
+   ],
+   [
+    "ZTC-165",
+    "DTL, Thrissur"
+   ],
+   [
+    "493TTF009",
+    "RDTL, Ernakulam"
+   ],
+   [
+    "PAK-557",
+    "DTL, Konni"
+   ],
+   [
+    "PRT2501-149",
+    "SDTL, Tripura, Agartal"
+   ],
+   [
+    "VBT1408",
+    "Andmand Nicobar"
+   ],
+   [
+    "SPOT260026B",
+    "Andmand Nicobar"
+   ]
+  ]
+ ],
+ [
+  "Mar-2026",
+  "CDSCO",
+  48,
+  48,
+  [],
+  []
+ ],
+ [
+  "Mar-2026",
+  "States",
+  93,
+  142,
+  [
+   84
+  ],
+  [
+   [
+    "JDT-8355",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GST30990",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "T250218E",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "T3604",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "LGT-250659B",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "TG24K067A",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "AP25002",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "AMAS0249",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "WT/25/332",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "AGT40814",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "24003AC-SB",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "AMT-0309",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "PL-08/184",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "2510057",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "JMT-251014C",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "MBT-24239",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GT27292C",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GB25051",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "P24K007",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "J-505",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "ASB07J24",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "ST243397",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "L-2508006",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "DT-306A",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "MYRTAB-799",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "HPP25002",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "SP25623",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "HT-24011133",
+    "RDTL, Hubli, Karnataka"
+   ],
+   [
+    "740525-BKN20",
+    "RDTL, Bellary, Karnata"
+   ],
+   [
+    "SP25267",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "VSPT2545",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "MT-250016",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GT27476A",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "18251296A",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "ENIJ25008",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GT0825146",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "SP25812",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "BJ1025006A",
+    "DTL Thiruvananthapuram"
+   ],
+   [
+    "CADB-07",
+    "DTL Thiruvananthapuram"
+   ],
+   [
+    "HTN172G",
+    "DTL Thiruvananthapuram"
+   ],
+   [
+    "493TTF019",
+    "DTL Thrissur"
+   ],
+   [
+    "T-2406091",
+    "SDT&RL, Bhubaneswar"
+   ],
+   [
+    "DRT23139",
+    "SDT&RL, Bhubaneswar"
+   ],
+   [
+    "L2401173",
+    "DTL Thiruvananthapuram"
+   ],
+   [
+    "C2501158",
+    "DTL Thiruvananthapuram"
+   ],
+   [
+    "250704",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "GF25",
+    "DTL, Bengaluru, Karnat"
+   ],
+   [
+    "ADE25561",
+    "RDTL, Bellary, Karnata"
+   ]
+  ]
+ ],
+ [
+  "May-2026",
+  "CDSCO",
+  46,
+  44,
+  [
+   2,
+   3,
+   15,
+   45
+  ],
+  []
+ ],
+ [
+  "May-2026",
+  "States",
+  111,
+  118,
+  [],
+  [
+   [
+    "DT2503015A",
+    "SDTL, Andhra Pradesh, "
+   ],
+   [
+    "RPCT-221",
+    "RDTL, Kurnool, Andhra "
+   ],
+   [
+    "HPC-5116",
+    "SDTL, Andhra Pradesh, "
+   ],
+   [
+    "APT-2509",
+    "RDTL Kurnool, Andhra P"
+   ],
+   [
+    "PFTC-23",
+    "SDTL, Andhra Pradesh, "
+   ],
+   [
+    "NB021065b",
+    "CDL, Kolkata"
+   ],
+   [
+    "UT-240943B",
+    "SDT&RL, Bhubaneswar"
+   ]
+  ]
+ ],
+ [
+  "Nov-2025",
+  "CDSCO",
+  64,
+  64,
+  [],
+  []
+ ],
+ [
+  "Nov-2025",
+  "States",
+  141,
+  152,
+  [
+   141
+  ],
+  [
+   [
+    "DS250075",
+    "DTL, Jaipur"
+   ],
+   [
+    "CT25035G",
+    "DTL, Jaipur"
+   ],
+   [
+    "SD-1457",
+    "DTL, Jaipur"
+   ],
+   [
+    "1725-230",
+    "DTL, Jaipur"
+   ],
+   [
+    "T24K554A",
+    "DTL, Jaipur"
+   ],
+   [
+    "GVD0644",
+    "DTL, Jaipur"
+   ],
+   [
+    "LC25D111A",
+    "DTL, Jaipur"
+   ],
+   [
+    "MLS-241413",
+    "DTL, Jaipur"
+   ],
+   [
+    "YLT25025",
+    "DTL, Jaipur"
+   ],
+   [
+    "YLT25028",
+    "DTL, Jaipur"
+   ],
+   [
+    "YLT25029",
+    "DTL, Jaipur"
+   ]
+  ]
+ ]
+]

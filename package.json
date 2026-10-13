@@ -1,0 +1,22 @@
+{
+  "name": "kharab-batch",
+  "version": "0.1.0",
+  "description": "Kharab Batch? \u2014 a sealed witness ledger for India's drug alerts on Arkiv, the Web3 database",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "kharab": "cli/kharab.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "mirror": "node mirror/run.mjs",
+    "audit:pii": "node scripts/pii-audit.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@arkiv-network/sdk": "0.8.1",
+    "viem": "2.57.5"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules
+.secrets*
+*.env
+state/tmp/
+state/raw/
+*.lock
+web/node_modules
