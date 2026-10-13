@@ -64,3 +64,7 @@ FAIL = EntityMutationError "Transaction failed: Execution error without revert d
 - The cut-off follows **gas, not request bytes**: it falls between ~5.11 M and ~5.32 M gas whatever the payload size, i.e. at about 1/7 of the block gas limit. Looks like an RPC-side cap on `eth_estimateGas`/tx gas that is not documented anywhere we could find.
 - Expected: either the documented block limit applies, or a clear error ("gas cap 5,000,000 exceeded"). Actual: an opaque `BAD_REQUEST` with no revert data, thrown during gas estimation, so the SDK cannot tell the caller to split the batch.
 - Workaround in `lib/writer.mjs`: chunks of 20 creates + 20 ownership transfers (~3.9 M gas).
+
+## 2026-10-13 14:20 IST — paging and idempotency
+- `arkiv_query` cursor + new blocks: paging 2,916 alerts with `limit 200` and no `atBlock` failed on a later page with `-32005 cursor belongs to a different query, block or select — start a new page-through`. With ~2 s blocks any page-through longer than a block breaks. Expected: the cursor carries its block (or the docs say "pin atBlock when paging"). Fix in `lib/read.mjs#queryAll`: every page after the first passes `atBlock` = the first page's `blockNumber`. The error text itself is clear (good).
+- Our own bug, recorded for honesty: the 09:00 run was stopped between a confirmed batch and the ledger save, so 20 CDSCO alerts exist twice on chain (sealed, cannot be deleted). Readers dedupe by `rid`; the mirror now reconciles against `snap = key(…)` on chain before writing.

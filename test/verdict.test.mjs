@@ -1,0 +1,12 @@
+import test from "node:test"; import assert from "node:assert/strict";
+import { verdict } from "../lib/read.mjs";
+const C = "0xc", K = "0xk", X = "0xstranger"; const allow = new Set([C, K]); const nowYm = 202610;
+const al = (creator, pname, exp_ym, rid, extra = {}) => ({ key: "0x" + Math.random().toString(16).slice(2), creator, a: { type: "alert", pname, exp_ym, exp_ok: true, rid, ...extra } });
+test("no allowlisted alert → grey, stranger writes are kept apart", () => { const v = verdict([al(X, "Coldrif Syrup", 202704, "r1")], { allow, nowYm }); assert.equal(v.level, "grey"); assert.equal(v.other.length, 1); });
+test("brand vs generic name with a shared salt word → one product → red", () => assert.equal(verdict([al(C, "Almont-Kid Syrup (Levocetirizine and Montelukast)", 202612, "a"), al(K, "Levocetirizine Dihydrochloride and Montelukast Sodium Syrup", 202612, "b")], { allow, nowYm }).level, "red"));
+test("same batch, unrelated products → amber", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a"), al(K, "Amoxicillin Capsules", 202704, "b")], { allow, nowYm }).level, "amber"));
+test("only expired alerts → record", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202501, "a")], { allow, nowYm }).level, "record"));
+test("unparseable expiry stays active", () => assert.equal(verdict([al(C, "Coldrif Syrup", 0, "a", { exp_ok: false })], { allow, nowYm }).level, "red"));
+test("duplicate sealed alerts with the same rid count once", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "same"), al(C, "Coldrif Syrup", 202704, "same")], { allow, nowYm }).alerts.length, 1));
+test("user-named product picks the agreeing alerts", () => { const v = verdict([al(C, "Coldrif Syrup", 202704, "a"), al(K, "Amoxicillin Capsules", 202704, "b")], { allow, nowYm, product: "amoxicillin 500" }); assert.equal(v.level, "red"); assert.equal(v.alerts.length, 1); });
+test("user-named product that matches nothing → amber", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a")], { allow, nowYm, product: "Dolo" }).level, "amber"));

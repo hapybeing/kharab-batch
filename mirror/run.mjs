@@ -10,6 +10,7 @@ import { alertCreate, alertDeadline, writeSealed, extendMany, loadLedger, saveLe
 import { sha256hex, canonical } from "../lib/norm.mjs";
 import { assertClean } from "../lib/scrub.mjs";
 import { wallets } from "../lib/chain.mjs";
+import { queryAll, Q } from "../lib/read.mjs";
 
 const args = process.argv.slice(2);
 const flag = f => args.includes(f);
@@ -76,7 +77,13 @@ for (const [src, P] of Object.entries(parsed)) {
   L.entities[snap.id] = { type: "snapshot", src, key: snap.key, tx: snap.tx, block: snap.block, rows: rowsHash, new: fresh.length, count: rows.length };
   log(src, "snapshot", snap.key, "new", fresh.length); }
   saveLedger(L);
-  const items = fresh.map(r => ({ id: "alert|" + r.rid, create: alertCreate(r, snap.key, now), meta: r }));
+  // Reconcile with the chain before writing: a run killed between a tx and the ledger save must not re-create rows.
+  const onChain = await queryAll(Q.bySnapshot(APP, snap.key), { select: { key: true, attributes: true, creator: true } });
+  const known = new Map(onChain.entities.filter(e => e.creator === W[role].toLowerCase()).map(e => [e.a.rid, e]));
+  let healed = 0;
+  for (const r of fresh) { const e = known.get(r.rid); if (e && !L.entities["alert|" + r.rid]) { L.entities["alert|" + r.rid] = { type: "alert", src: r.src, batch: r.batch, key: e.key, exp_ym: r.exp_ym, src_ymd: r.src_ymd, list: r.list || undefined, ptok: r.ptok, snap: snap.key, healed: true }; healed++; } }
+  if (healed) { log(src, "reconciled", healed, "alerts already on chain"); saveLedger(L); }
+  const items = fresh.filter(r => !L.entities["alert|" + r.rid]).map(r => ({ id: "alert|" + r.rid, create: alertCreate(r, snap.key, now), meta: r }));
   await writeSealed(role, items, { chunk: +process.env.CHUNK || 40, onChunk: (done, rc) => {
     for (const d of done) L.entities[d.id] = { type: "alert", src: d.meta.src, batch: d.meta.batch, key: d.key, tx: d.tx, block: d.block, exp_ym: d.meta.exp_ym, src_ymd: d.meta.src_ymd, list: d.meta.list || undefined, ptok: d.meta.ptok, snap: snap.key };
     saveLedger(L); log(src, "alerts +", done.length, "gas", rc.gasUsed);
@@ -150,6 +157,7 @@ if (!flag("--dry")) {
   }
 }
 
+if (flag("--dry")) { log("dry run: nothing written"); process.exit(0); }
 report.finished = new Date().toISOString();
 L.runs.push(report); if (L.runs.length > 200) L.runs = L.runs.slice(-200);
 saveLedger(L);

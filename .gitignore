@@ -5,3 +5,4 @@ state/tmp/
 state/raw/
 *.lock
 web/node_modules
+web/*.timestamp-*

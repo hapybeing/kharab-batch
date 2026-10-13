@@ -42,7 +42,7 @@ async function check(batchIn) {
     const sig = x => x.entities.map(e => e.key + JSON.stringify(e.a) + e.creator + e.owner).sort().join("|");
     console.log(sig(results[0]) === sig(results[1]) ? `2/2 readers agree (node RPC block ${results[0].block}, explorer index block ${results[1].block})` : "READERS DISAGREE (one may lag a few blocks; re-run)");
   }
-  console.log("The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).");
+  if (v.alerts.length) console.log("The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).");
 }
 
 async function gap() {
