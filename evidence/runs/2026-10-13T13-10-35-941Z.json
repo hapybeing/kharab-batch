@@ -1,0 +1,29 @@
+{
+ "run": "host-2026-10-13T13:10",
+ "started": "2026-10-13T13:10:35.941Z",
+ "sources": {
+  "ka": {
+   "rows": 193,
+   "live": 137,
+   "expired": 56,
+   "new": 1,
+   "missing_since_last": 618
+  },
+  "mh": {
+   "rows": 165,
+   "live": 91,
+   "expired": 74,
+   "new": 0,
+   "missing_since_last": 0
+  },
+  "curated": {
+   "rows": 7,
+   "live": 7,
+   "expired": 0,
+   "new": 0,
+   "missing_since_last": 0
+  }
+ },
+ "watch": {},
+ "finished": "2026-10-13T13:11:29.774Z"
+}
