@@ -147,7 +147,7 @@ function Result({ T, lang, r, product, setProduct }) {
     {v.short && <p class="small">⚠ {T("short_batch")}</p>}
     {v.level === "amber" && !product && <div class="pick"><p class="small">{T("pick")}</p>{(v.products || []).map(p => <button onClick={() => setProduct(p)}>{p}</button>)}</div>}
     {v.alerts.length > 0 && <>
-      <h3>{T("publishers")}</h3>
+      <h2 class="h3">{T("publishers")}</h2>
       <ul class="pubs">{sorted.map(e => <li>
         <span class="chip">{pubName(e, lang)}</span>
         {" "}{e.a.src_ymd ? fmtYmd(e.a.src_ymd, lang) : `${T("list")} ${fmtYm(e.a.src_ym, lang)} (${releaseOf(e.a.src_ym).basis === "declared" ? T("declared") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang) : T("released_after") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang)})`} · {T("cls_" + e.a.class) || e.a.class}{e.a.test && e.a.test !== "na" ? " · " + (T("test_" + e.a.test) || e.a.test) : ""}

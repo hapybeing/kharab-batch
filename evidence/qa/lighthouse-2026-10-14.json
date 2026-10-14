@@ -1,0 +1,29 @@
+{
+ "https://hapybeing.github.io/kharab-batch/": {
+  "fetchTime": "2026-10-14T05:23:26.346Z",
+  "lighthouse": "12.8.2",
+  "formFactor": "mobile",
+  "throttling": "simulated (Lighthouse default slow 4G)",
+  "scores": {
+   "performance": 96,
+   "accessibility": 100,
+   "best-practices": 100
+  },
+  "lcp": "2.5\u00a0s",
+  "tbt": "40\u00a0ms",
+  "cls": "0.004"
+ },
+ "https://hapybeing.github.io/kharab-batch/#/b/SR13": {
+  "fetchTime": "2026-10-14T05:23:44.996Z",
+  "lighthouse": "12.8.2",
+  "formFactor": "mobile",
+  "throttling": "simulated (Lighthouse default slow 4G)",
+  "scores": {
+   "performance": 95,
+   "accessibility": 98
+  },
+  "lcp": "2.2\u00a0s",
+  "tbt": "50\u00a0ms",
+  "cls": "0.102"
+ }
+}

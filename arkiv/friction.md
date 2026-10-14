@@ -1,0 +1,83 @@
+# Friction report — building Kharab Batch? on Arkiv
+
+Versions: `@arkiv-network/sdk@0.8.1`, `viem@2.57.5`, Node 22.23, Tiramisu chain 7738577 (node client `reth/v2.5.0-189c0df`), explorer `tiramisu.explorer.arkiv.network`. Dates are IST, 12–14 Oct 2026.
+Every item below was reproduced by us; raw output with timestamps is in [friction-log.md](friction-log.md), scripts in `scripts/spikes/d1.mjs` and `scripts/friction/`.
+
+## Issues
+
+### 1. Batches fail above ~5.1 M gas with an opaque `BAD_REQUEST`
+- **Surface:** `walletClient.executeBatch` → `eth_estimateGas` on the public RPC.
+- **Repro:** `KHARAB_SECRETS=… node scripts/friction/batch-limit.mjs` (writes to `app='kharab-test'`).
+- **Expected:** batches up to the 36 M block gas limit, or a clear "gas cap exceeded" error.
+- **Actual:** n=27 alert-shaped creates OK (4,786,832 gas); n=30 fails with `EntityMutationError: Transaction failed: Execution error without revert data`, viem details `"BAD_REQUEST"`. Tiny creates: n=30 OK (5,111,360), n=40 fails. The cut follows gas, not bytes (~5.1–5.3 M).
+- **Impact:** our first production load failed; the SDK can't tell callers to split.
+- **Fix suggestion:** document the RPC gas cap; return `-32000 gas cap exceeded (5,000,000)`; let `executeBatch` auto-chunk.
+- **Workaround:** 20 creates + 20 ownership transfers per tx (`lib/writer.mjs`).
+
+### 2. Cursor pagination breaks when a block lands mid page-through
+- **Surface:** `arkiv_query` with `cursor`.
+- **Repro:** page 2,900 alerts with `limit 200` and no `atBlock`.
+- **Expected:** a cursor stays valid (it encodes its block), or docs say "pin `atBlock`".
+- **Actual:** `-32005 cursor belongs to a different query, block or select — start a new page-through` after a couple of pages (2 s blocks).
+- **Fix suggestion:** document it in the querying guide; have the SDK pin the first page's block.
+- **Workaround:** `lib/read.mjs#queryAll` passes `atBlock` = first page's `blockNumber` on every later page. (Error text is clear: good.)
+
+### 3. `$createdAt` blocked by the SDK builder, accepted raw
+- **Surface:** SDK query builder vs `arkiv_query`.
+- **Expected:** consistent behaviour.
+- **Actual:** SDK throws `InvalidPredicateError "$createdAt" is returned in query results but carries no index`; the same predicate sent raw returns 100 hits.
+- **Fix suggestion:** either index it officially (it is the natural "new since my last visit" filter) or reject it on the node too.
+
+### 4. Filtered counts only via raw RPC, and only as an object
+- **Surface:** `getEntityCount()` / `arkiv_getEntityCount`.
+- **Actual:** SDK `getEntityCount()` takes no filter (returns chain-wide 2,089). Raw accepts `{query: "…"}`; a bare string → `-32602 … expected struct CountRequest`.
+- **Fix suggestion:** add `getEntityCount({ query })` to the SDK; accept the string form like `arkiv_query`.
+
+### 5. Read-cost headers are half there
+- **Surface:** HTTP response headers of the public RPC (re-checked 14 Oct 11:05 IST with curl).
+- **Expected:** `Access-Control-Expose-Headers` lists `Arkiv-Cost` and `Arkiv-Quota-Used-Percent`, so a browser app can show its remaining budget.
+- **Actual:** `arkiv_query` returns `arkiv-cost: 100` but no `Arkiv-Quota-Used-Percent`; `arkiv_getEntityCount` returns neither. `ratelimit: limit=600, remaining=…` is present.
+- **Impact:** our budget meter has to count requests itself against the ~100-query / 39-min keyless budget (tech research, 12 Oct).
+- **Fix suggestion:** send the quota header on every metered method.
+
+### 6. WebSocket events: no server-side filter
+- **Surface:** `watchEntityEvents` (no `fromBlock`) over `webSocket(WSS)`.
+- **Actual:** ~25 s delivered 259 events chain-wide, 206 of them ours; the SDK exposes no owner/creator/topic filter, so every client filters a firehose.
+- **Fix suggestion:** accept `owner`/`creator`/attribute filters in the subscription (log topics already carry the owner).
+
+### 7. Who extended a sealed entity is not in the event
+- **Surface:** `ExpiryExtended` log of a `permissionlessExtension` entity owned by `0x…dEaD`.
+- **Actual:** the owner topic is `0x…dEaD`; the extender is only recoverable from `tx.from`.
+- **Fix suggestion:** add the caller to the event (it is the whole point of community extension).
+
+### 8. Equal-target extension: docs disagree with each other and with the node
+- **Expected:** JSON-RPC docs: equal expiry reverts. TS docs: no-op.
+- **Actual:** accepted, and an `ExpiryExtended` log is emitted.
+- **Fix suggestion:** pick one behaviour and document it.
+
+### 9. Sealed + readonly means a mistaken record can only be *annotated by convention*
+- **Surface:** product design with `readonly` + ownership → `0x…dEaD`.
+- **What happened (our bug):** on 13 Oct 18:40 IST our mirror fetched only the first 4 pages of the Karnataka list (193 of 810 rows) and sealed a snapshot with `count = 193` (`0x0cb0b77f…ae77a1`). A naive reader diffing it would see 617 "removals".
+- **Expected (from Arkiv):** nothing different; immutability is the feature. But there is no first-class way to attach a correction to a sealed entity, so every reader must implement the same rule.
+- **What we did:** a pure reader rule `snapshotStatus()` (partial = `scope='partial'` or count < ½ of the largest earlier snapshot) with tests, shown flagged in the app and in `kharab snapshots`; the mirror now reads the full list every run and writes no snapshot on a short read.
+- **Suggestion:** a documented "annotation" pattern (e.g. an `annotates = key(X)` convention) in the best-practices guide.
+
+### 10. Faucet needs a browser wallet, SIWE and a captcha
+- **Actual:** no headless path; we automated SIWE + the Cap widget in headless Chromium (`work/sdk/pwfaucet.mjs` in our workspace).
+- **Fix suggestion:** a rate-limited API faucet for CI.
+
+### 11. Our own: duplicate sealed alerts after an interrupted run
+- The 13 Oct 09:00 run was killed between a confirmed batch and our local ledger save; 20 CDSCO alerts exist twice (sealed, undeletable). Readers dedupe by `creator + rid` (fixture 06/23); the mirror now reconciles with the chain (`snap = key(S)`) before writing.
+
+## What went smoothly (same rigour)
+| Tested | Expected | Happened |
+|---|---|---|
+| `predictEntityKeys` + create + `changeOwnership → 0x…dEaD` in one `executeBatch` | predicted = minted keys; sealed atomically | yes (281,632 gas for 2+2) |
+| Former owner deletes a sealed entity | rejected | rejected with a clear message |
+| 211 owner-only `extendEntity` in one batch | one tx | 1 tx, exactly 10,000 gas per extension (vs 25,210 standalone); 14 Oct block 552,460 |
+| Stranger extends an owner-only lease | rejected | rejected |
+| `batch STARTSWITH str('SR1')` on `str` | works | works (did-you-mean) |
+| `atBlock` 100…400,000 blocks back | answers | all answered (whole chain since the 1 Oct restart) |
+| Explorer shadow RPC vs node for `key`, `bytes32`, `bool`, `u64`, `str` | same results | byte-identical attributes and counts; `check --reader both` → "2/2 readers agree" |
+| CORS on RPC, shadow RPC, explorer `/api/entity/:key` | callable from a browser | `Access-Control-Allow-Origin: *` on all three |
+| Keyless reads from a static site (GitHub Pages) | works with no backend | SR-13 red in 0.85 s from a cold 360×640 Chromium; ≤2 queries per check |

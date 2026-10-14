@@ -1,0 +1,49 @@
+{
+ "base": "https://hapybeing.github.io/kharab-batch/",
+ "results": {
+  "hindi default": {
+   "pass": true
+  },
+  "SR-13 red ≤2 s": {
+   "pass": true,
+   "ms": 845
+  },
+  "SR-13 lag 48 days": {
+   "pass": true
+  },
+  "≤3 queries per check": {
+   "pass": true,
+   "inspector": "इंस्पेक्टर · इस जाँच में: 1 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 3/100 प्रति 39 मिनट"
+  },
+  "English toggle": {
+   "pass": true
+  },
+  "R01GL2523 red + not on national portal": {
+   "pass": true
+  },
+  "random → grey + caveat": {
+   "pass": true,
+   "batch": "QZ25DKP7"
+  },
+  "gap rows = Q4": {
+   "pass": true,
+   "rows": 211,
+   "q4": 211,
+   "expected": "211"
+  },
+  "changed feed counts + PDF sha": {
+   "pass": true,
+   "jun": "34",
+   "may": "2",
+   "dec": "3"
+  },
+  "partial KA snapshot flagged": {
+   "pass": true
+  },
+  "no console errors": {
+   "pass": true,
+   "errors": []
+  }
+ },
+ "fail": 0
+}
