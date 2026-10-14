@@ -42,7 +42,10 @@ const report = { run: RUN, started: new Date(now).toISOString(), sources: {}, wa
 // ---------- 1. fetch + parse ----------
 const parsed = {};
 if (want("cdsco")) { const r = await getRaw("cdsco", () => fetchCdsco()); if (r) parsed.cdsco = { rows: parseCdsco(r), fetched: r.fetched, raw_sha256: sha256hex(JSON.stringify(r)) }; }
-if (want("ka")) { const r = await getRaw("ka", () => fetchKspc(+process.env.KA_PAGES || 4)); if (r) parsed.ka = { rows: parseKa(r), fetched: r.fetched, raw_sha256: sha256hex(canonical(r.page_sha256)), partial: r.rows.length < 800 }; }
+if (want("ka")) { const r = await getRaw("ka", () => fetchKspc(+process.env.KA_PAGES || 20)); if (r) parsed.ka = { rows: parseKa(r), fetched: r.fetched, raw_sha256: sha256hex(canonical(r.page_sha256)), partial: r.rows.length < 800 }; }
+// KSPC is fetched in full (17 pages of 50) every run. A short read (<800 rows; the list had 826 on 12 Oct) is an outage, not removals:
+// no snapshot, no seen-list update, and the heartbeat says degraded. Snapshot ka/2026-10-13T13:10 (count=193) predates this rule;
+// readers flag it as partial via snapshotStatus() in lib/read.mjs.
 if (want("mh")) { const r = await getRaw("mh", () => fetchMh()); if (r) parsed.mh = { rows: parseMh(r), fetched: r.fetched, raw_sha256: sha256hex(canonical(r.page_sha256)) }; }
 if (want("curated")) { const list = JSON.parse(fs.readFileSync(new URL("../curated/notices.json", import.meta.url))); parsed.curated = { rows: parseCurated(list), fetched: new Date().toISOString(), raw_sha256: sha256hex(canonical(list)) }; }
 
@@ -146,7 +149,7 @@ if (!flag("--dry")) {
   for (const role of roles) {
     const hb = L.entities["heartbeat|" + role];
     const src = Object.entries(ROLE).find(([, r]) => r === role)?.[0] || "watch";
-    const degraded = src !== "watch" && !parsed[src];
+    const degraded = src !== "watch" && (!parsed[src] || parsed[src].partial);
     if (!hb) {
       const [h] = await writeSealed(role, [{ id: "heartbeat|" + role, create: { payload: jsonToPayload({ v: 1, role, src, mver: MVER, run: RUN }), contentType: "application/json",
         attributes: { app: A.str(APP), v: A.u64(1), type: A.str("heartbeat"), src: A.str(src), mver: A.str(degraded ? MVER + "+degraded" : MVER) }, expires: ExpirationTime.atDate(new Date(now + 30 * H)), flags: { readonly: true } } }], { seal: false });
