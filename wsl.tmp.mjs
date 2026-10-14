@@ -1,0 +1,12 @@
+import WebSocket from "ws";
+import fs from "node:fs";
+const R="/workspace/projects/31962d53-34e4-4948-a129-513e65ec1863/kharab-batch/";
+const s = fs.readFileSync(R+"web/src/live.js","utf8");
+const C = s.match(/created: "(0x[0-9a-f]+)"/)[1], E = s.match(/extended: "(0x[0-9a-f]+)"/)[1];
+const W = JSON.parse(fs.readFileSync(R+"wallets.json")); const pad = a => "0x" + a.slice(2).toLowerCase().padStart(64, "0");
+const ws = new WebSocket("wss://rpc.tiramisu.db-chain.testnet.arkiv.network"); const cnt = { f: {}, u: {} }; const sub = {};
+ws.on("open", () => { ws.send(JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_subscribe", params: ["logs", { address: "0x4400000000000000000000000000000000000044", topics: [[C, E], null, [W.WATCH, W.MIRROR_CDSCO, W.MIRROR_KA, W.MIRROR_MH, W.CURATOR].map(pad)] }] }));
+  ws.send(JSON.stringify({ jsonrpc: "2.0", id: 2, method: "eth_subscribe", params: ["logs", { address: "0x4400000000000000000000000000000000000044", topics: [E, null, pad(W.WATCH)] }] }));
+  ws.send(JSON.stringify({ jsonrpc: "2.0", id: 3, method: "eth_subscribe", params: ["logs", { address: "0x4400000000000000000000000000000000000044" }] })); });
+ws.on("message", m => { const j = JSON.parse(m); if (j.id) { sub[j.result] = j.id; return; } const id = sub[j.params.subscription]; const b = parseInt(j.params.result.blockNumber); const o = j.params.result.topics[2]; const k = id + ":" + b + ":" + (o === pad(W.WATCH) ? "W" : "x"); cnt[k] = (cnt[k] || 0) + 1; });
+setTimeout(() => { fs.writeFileSync("/tmp/wsl.json", JSON.stringify(Object.entries(cnt).filter(([k]) => !k.startsWith("3:") || k.endsWith("W")))); process.exit(0); }, 400000);

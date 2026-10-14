@@ -298,7 +298,7 @@ function About({ T, lang }) {
     <h2>{T("about_title")}</h2><p>{T("about_body")}</p><p>{T("off_chain")}</p>
     <h3>{T("publishers_live")}</h3>
     <p class="small muted">{T("hb_sub")}</p>
-    {hb ? <ul class="list">{ROLES.map(([role]) => { const e = hb.entities.find(x => x.creator === low(W[role])); const last = e && blockToMs(e.expiresAt - (role === "WATCH" ? 36 : 30) * 3600 / BLOCK_S, hb.block); // WATCH renews with its leases (36 h) const h = e ? Math.max(0, Math.round((Date.now() - last) / 36e5)) : null;
+    {hb ? <ul class="list">{ROLES.map(([role]) => { const e = hb.entities.find(x => x.creator === low(W[role])); const last = e && blockToMs(e.expiresAt - (role === "WATCH" ? 36 : 30) * 3600 / BLOCK_S, hb.block); const h = e ? Math.max(0, Math.round((Date.now() - last) / 36e5)) : null;
       return <li data-hb={role} data-stale={e ? "0" : "1"}><span class="chip">{PUB[low(W[role])]?.[lang] || role}</span> {e ? T("hb_last", { h }) : <b class="warn">{T("hb_stale")}</b>}{e && /degraded/.test(e.a.mver) && <> · <b class="warn">{T("hb_degraded")}</b></>}<small class="mono"><a href={`${EXPLORER}/address/${W[role]}`} target="_blank" rel="noopener">{W[role]}</a></small></li>; })}</ul> : <p class="muted">{T("loading")}</p>}
     <h3>{T("health")}</h3>
     <p class="small muted">{T("health_sub")}</p>
