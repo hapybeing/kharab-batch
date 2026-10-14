@@ -82,3 +82,7 @@ export async function run(id, q, fn, o = {}) {
 // ---- local recents (never leave the phone) ----
 export const recents = () => JSON.parse(localStorage.getItem("kb_recent") || "[]");
 export function addRecent(b) { const r = [b, ...recents().filter(x => x !== b)].slice(0, 6); localStorage.setItem("kb_recent", JSON.stringify(r)); }
+
+// ---- My list (IndexedDB only; never sent anywhere) ----
+export async function getList() { return (await idbGet("watchlist")) || []; }
+export async function setList(l) { await idbSet("watchlist", [...new Set(l)]); }

@@ -4,7 +4,8 @@ import { releaseOf } from "../../lib/dates.mjs";
 import { query, queryAll, verdict, nationalLag, snapshotStatus, Q, normBatch, SELECT } from "../../lib/read.mjs";
 import W from "../../wallets.json";
 import { t } from "./i18n.js";
-import { run, newCheck, LOG, onLog, budgetUsed, BUDGET, recents, addRecent } from "./data.js";
+import { run, newCheck, LOG, onLog, budgetUsed, BUDGET, recents, addRecent, getList, setList } from "./data.js";
+import { startLive, onLive, STATS } from "./live.js";
 import "./style.css";
 
 const APP = "kharab";
@@ -49,7 +50,7 @@ const route = () => {
   const h = location.hash;
   const m = h.match(/^#\/b\/([^/?]+)/);
   if (m) return { tab: "check", batch: decodeURIComponent(m[1]) };
-  for (const k of ["gap", "changed", "about"]) if (h.startsWith("#/" + k)) return { tab: k };
+  for (const k of ["gap", "changed", "list", "about"]) if (h.startsWith("#/" + k)) return { tab: k };
   return { tab: "check" };
 };
 
@@ -58,17 +59,21 @@ function App() {
   const [r, setR] = useState(route());
   useEffect(() => { const f = () => setR(route()); addEventListener("hashchange", f); return () => removeEventListener("hashchange", f); }, []);
   useEffect(() => { localStorage.setItem("kb_lang", lang); document.documentElement.lang = lang; document.title = t(lang, "doc_title"); }, [lang]);
+  const [hit, setHit] = useState(null);
+  useEffect(() => { startLive(getList); return onLive(ev => { if (ev.kind === "watch-hit") setHit(ev); }); }, []);
   const T = (k, v) => t(lang, k, v);
   return <div class="wrap">
     <header>
       <h1><a href="#/check">{T("app")}</a></h1>
       <div class="langs" role="group" aria-label="Language / भाषा">{["hi", "en"].map(l => <button aria-pressed={l === lang} class={l === lang ? "on" : ""} lang={l} onClick={() => setLang(l)}>{l === "hi" ? "हिंदी" : "EN"}</button>)}</div>
     </header>
-    <nav aria-label={T("nav")}>{["check", "gap", "changed", "about"].map(k => <a href={"#/" + k} aria-current={r.tab === k ? "page" : undefined} class={r.tab === k ? "on" : ""}>{T("tabs_" + k)}</a>)}</nav>
+    {hit && <div class="banner" role="alert">⛔ {T("banner_hit", { src: hit.src.toUpperCase() })} {hit.hits.map(e => <a class="pill" href={"#/b/" + e.a.batch} onClick={() => setHit(null)}>{e.a.batch}</a>)}</div>}
+    <nav aria-label={T("nav")}>{["check", "gap", "changed", "list", "about"].map(k => <a href={"#/" + k} aria-current={r.tab === k ? "page" : undefined} class={r.tab === k ? "on" : ""}>{T("tabs_" + k)}</a>)}</nav>
     <main>
       {r.tab === "check" && <Check T={T} lang={lang} batch={r.batch} />}
       {r.tab === "gap" && <Gap T={T} lang={lang} />}
       {r.tab === "changed" && <Changed T={T} lang={lang} />}
+      {r.tab === "list" && <MyList T={T} lang={lang} />}
       {r.tab === "about" && <About T={T} lang={lang} />}
     </main>
     <Inspector T={T} />
@@ -165,6 +170,7 @@ function Result({ T, lang, r, product, setProduct }) {
       {r.near.length > 0 && <p class="small">{T("did_you_mean")} {r.near.map(e => <a class="pill" href={"#/b/" + e.a.batch}>{e.a.batch}</a>)}<br /><small class="muted">{T("near_note")}</small></p>}
     </>}
     {v.other.length > 0 && <p class="small muted">{T("other_writers", { n: v.other.length })}</p>}
+    <SaveBtn T={T} batch={r.batch} />
     <p class="small muted">{T("read_at", { b: num(r.block, lang), ms: r.ms })}</p>
   </div>;
 }
@@ -194,6 +200,12 @@ function Gap({ T, lang }) {
     const q = Q.gaps(APP, W.WATCH);
     run("Q4", q, url => queryAll(q, { url }), { cacheKey: "q4", ttl: 15 * 60e3 }).then(setD).catch(e => setErr(e.message));
   }, []);
+  const [fresh, setFresh] = useState(() => new Set());
+  useEffect(() => onLive(ev => {
+    if (ev.kind !== "extended") return;
+    setD(d0 => { if (!d0) return d0; let hitRow = false; const entities = d0.entities.map(e => e.key === ev.key ? (hitRow = true, { ...e, expiresAt: ev.expiresAt }) : e); return hitRow ? { ...d0, entities, block: Math.max(d0.block, ev.block) } : d0; });
+    setFresh(f => new Set(f).add(ev.key));
+  }), []);
   if (err) return <p class="err" role="alert">{err}</p>;
   if (!d) return <p class="muted">{T("loading")}</p>;
   const rows = d.entities;
@@ -206,14 +218,15 @@ function Gap({ T, lang }) {
     <p class="big" data-q4={rows.length}>{T("gap_count", { n: num(rows.length, lang), m: num(inDate, lang) })}</p>
     <p class="small muted">{Object.entries(bySrc).map(([s, n]) => `${s.toUpperCase()} ${num(n, lang)}`).join(" · ")} · {T("read_block", { b: num(d.block, lang) })}</p>
     <p class="small">{T("sort_hint")}</p>
+    {fresh.size > 0 && <p class="small live">● {T("live_ticks", { n: fresh.size })}</p>}
     <p class="small muted">{T("caveat_state")}</p>
     <ul class="list">{sorted.map(e => {
       const obs = e.expiresAt - LEASE; const ago = Math.max(0, Math.round((d.block - obs) * BLOCK_S / 3600));
       const left = Math.max(0, Math.min(1, (e.expiresAt - d.block) / LEASE));
-      return <li><a href={"#/b/" + e.a.batch}>
+      return <li class={fresh.has(e.key) ? "fresh" : ""} data-fresh={fresh.has(e.key) ? "1" : "0"}><a href={"#/b/" + e.a.batch}>
         <span class="chip">{e.a.src.toUpperCase()}</span> <span class="mono">{e.a.batch}</span>
         <span class="right">{T("days_waiting", { d: num(daysSince(e.a.since_ymd), lang) })}</span>
-        <small>{fmtYmd(e.a.since_ymd, lang)} · {T("exp")} {fmtYm(e.a.exp_ym, lang)} · {T("rechecked", { h: ago })}</small>
+        <small>{fmtYmd(e.a.since_ymd, lang)} · {T("exp")} {fmtYm(e.a.exp_ym, lang)} · {fresh.has(e.key) ? T("rechecked_live") : T("rechecked", { h: ago })}</small>
         <span class="lease" role="img" aria-label={T("lease_left", { p: Math.round(left * 100) })}><i style={{ width: Math.round(left * 100) + "%" }} /></span>
       </a></li>;
     })}</ul>
@@ -267,9 +280,34 @@ function About({ T, lang }) {
   </section>;
 }
 
+function SaveBtn({ T, batch }) {
+  const [saved, setSaved] = useState(false);
+  useEffect(() => { getList().then(l => setSaved(l.includes(batch))); }, [batch]);
+  return <button class="save" aria-pressed={saved} onClick={async () => { const l = await getList(); await setList(saved ? l.filter(x => x !== batch) : [...l, batch]); setSaved(!saved); }}>{saved ? "✓ " + T("saved") : "+ " + T("save")}</button>;
+}
+
+function MyList({ T, lang }) {
+  const [l, setL] = useState(null);
+  useEffect(() => { getList().then(setL); }, []);
+  const [, force] = useState(0);
+  useEffect(() => onLive(() => force(x => x + 1)), []);
+  if (!l) return <p class="muted">{T("loading")}</p>;
+  const save = async n => { await setList(n); setL(n); };
+  const exp = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify({ app: "kharab-batch", list: l }, null, 1)], { type: "application/json" })); a.download = "kharab-batch-my-list.json"; a.click(); };
+  const imp = e => { const f = e.target.files[0]; if (!f) return; f.text().then(x => { try { const j = JSON.parse(x); save([...l, ...(j.list || [])].map(normBatch).filter(Boolean)); } catch { } }); };
+  return <section>
+    <h2>{T("list_title")}</h2>
+    <p class="small">{T("list_note")}</p>
+    <p class="small live" data-ws={STATS.status}>● {T("ws_line", { s: STATS.status, n: STATS.events, m: STATS.matched })}</p>
+    {l.length === 0 ? <p class="muted">{T("list_empty")}</p> : <ul class="list">{l.map(b => <li><a href={"#/b/" + b}><span class="mono">{b}</span></a><button class="rm" aria-label={T("remove") + " " + b} onClick={() => save(l.filter(x => x !== b))}>✕</button></li>)}</ul>}
+    <p class="row"><button onClick={exp} disabled={!l.length}>{T("export")}</button> <label class="filebtn">{T("import")}<input type="file" accept="application/json" onChange={imp} /></label></p>
+  </section>;
+}
+
 function Inspector({ T }) {
   const [, force] = useState(0);
   useEffect(() => onLog(() => force(x => x + 1)), []);
+  useEffect(() => onLive(() => force(x => x + 1)), []);
   const used = budgetUsed();
   const last = LOG[0]?.check;
   const thisCheck = last ? LOG.filter(e => e.check === last) : [];
@@ -278,6 +316,7 @@ function Inspector({ T }) {
     <summary>{T("inspector")} · {last ? T("insp_check", { n: net, c: thisCheck.filter(e => e.cached).length }) : T("insp_idle")} · <span>{T("budget", { n: used, max: BUDGET })}</span></summary>
     <div class="meter" role="meter" aria-valuemin="0" aria-valuemax={BUDGET} aria-valuenow={used} aria-label={T("budget", { n: used, max: BUDGET })}><i style={{ width: Math.min(100, used) + "%" }} /></div>
     <p class="small">{T("insp_note")}</p>
+    <p class="small" data-ws-events={STATS.events} data-ws-status={STATS.status}><b>WebSocket</b> · {T("insp_ws", { s: STATS.status, sub: STATS.subId ? STATS.subId.slice(0, 10) + "…" : "—", n: STATS.events, x: STATS.extended, c: STATS.created, q: STATS.queries })}<br /><code>eth_subscribe("logs", {"{"}address: 0x44…44, topics: [[EntityCreated, ExpiryExtended], *, owner ∈ our 5 wallets]{"}"})</code></p>
     <ol class="small">{LOG.slice(0, 12).map(e => <li><b>{e.id}</b> · {e.reader}{e.cached ? "" : ` · ${e.requests} ${e.requests === 1 ? "request" : "requests"} · ${e.ms} ms`}{e.fallback ? ` · ${e.fallback}` : ""}{e.error ? " · ✗ " + e.error : ""}<br /><code>{e.q}</code></li>)}</ol>
   </details>;
 }
