@@ -52,6 +52,7 @@ for (const [src, P] of Object.entries(parsed)) {
   const role = ROLE[src];
   const rows = P.rows;
   for (const r of rows) assertClean(r);
+  if (P.partial) { log(src, "PARTIAL fetch (" + rows.length + " rows): no snapshot, seen-list untouched"); continue; }
   const fresh = rows.filter(r => live(r) && !L.entities["alert|" + r.rid]);
   const expired = rows.filter(r => !live(r)).length;
   const rowsHash = sha256hex(rows.map(r => r.row).sort().join(""));
