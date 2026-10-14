@@ -32,7 +32,7 @@ const todayUTC = (() => { const d = new Date(Date.now() + IST); return Date.UTC(
 const ymd2date = n => new Date(Date.UTC(Math.floor(n / 10000), Math.floor(n / 100) % 100 - 1, n % 100));
 const loc = lang => (lang === "hi" ? "hi-IN" : "en-IN");
 const fmtYmd = (n, lang) => n ? ymd2date(n).toLocaleDateString(loc(lang), { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "";
-const fmtYm = (n, lang) => n ? new Date(Date.UTC(Math.floor(n / 100), n % 100 - 1, 1)).toLocaleDateString(loc(lang), { month: "short", year: "numeric", timeZone: "UTC" }) : "—";
+const fmtYm = (n, lang) => n >= 200001 ? new Date(Date.UTC(Math.floor(n / 100), n % 100 - 1, 1)).toLocaleDateString(loc(lang), { month: "short", year: "numeric", timeZone: "UTC" }) : "—";
 const fmtDate = (ms, lang) => new Date(ms).toLocaleDateString(loc(lang), { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
 const daysSince = n => Math.round((todayUTC - ymd2date(n)) / 864e5);
 const short = h => h ? h.slice(0, 10) + "…" + h.slice(-6) : "";
