@@ -1,6 +1,7 @@
 import { render } from "preact";
 import { useState, useEffect } from "preact/hooks";
 import { releaseOf } from "../../lib/dates.mjs";
+import { call } from "../../lib/read.mjs";
 import { query, queryAll, verdict, nationalLag, snapshotStatus, Q, normBatch, SELECT } from "../../lib/read.mjs";
 import W from "../../wallets.json";
 import { t } from "./i18n.js";
@@ -175,8 +176,25 @@ function Result({ T, lang, r, product, setProduct }) {
   </div>;
 }
 
+const EXT_TOPIC = "0x10dc3526654c9ba4e2370b1bfcbc0de087d141a5694b3d3305d37df7e6705d4b"; // ExpiryExtended (SDK 0.8.1)
+const OP = "0x4400000000000000000000000000000000000044";
+// Q18 "who kept this alive": the ExpiryExtended log's owner topic is 0x…dEaD for sealed records, so the extender is tx.from (arkiv/friction.md #7)
+// eth_getLogs answers at most 100,000 blocks per call (arkiv/friction.md #12), so walk from the entity's creation block in windows.
+async function keepers(key, from, head) {
+  const q = `eth_getLogs ExpiryExtended entityKey=${key} blocks ${from}…${head}`;
+  return run("Q18", q, async url => {
+    const logs = [];
+    for (let a = from; a <= head; a += 100000) logs.push(...await call("eth_getLogs", [{ address: OP, fromBlock: "0x" + a.toString(16), toBlock: "0x" + Math.min(head, a + 99999).toString(16), topics: [EXT_TOPIC, key] }], url));
+    const out = [];
+    for (const l of logs.slice(-5)) { const tx = await call("eth_getTransactionByHash", [l.transactionHash], url); out.push({ from: low(tx.from), tx: l.transactionHash, block: Number(l.blockNumber) }); }
+    return { n: logs.length, out };
+  }, { cacheKey: "q18:" + key, ttl: 10 * 60e3 });
+}
+const ROLE_OF = Object.fromEntries(Object.entries(W).map(([r, a]) => [low(a), r]));
+
 function Proof({ T, lang, e, block }) {
   const [open, setOpen] = useState(false);
+  const [kp, setKp] = useState(null);
   const sealed = e.owner === DEAD;
   return <details class="proof" onToggle={ev => setOpen(ev.target.open)}>
     <summary>{T("proof")}</summary>
@@ -187,6 +205,7 @@ function Proof({ T, lang, e, block }) {
       <dt>{T("flags")}</dt><dd>{T("flags_val")}</dd>
       <dt>{T("expires")}</dt><dd>{T("expires_val", { date: fmtDate(blockToMs(e.expiresAt, block), lang), b: num(e.expiresAt, lang) })}</dd>
       {e.createdAt && <><dt>{T("created")}</dt><dd>{T("created_val", { b: num(e.createdAt, lang), date: fmtDate(blockToMs(e.createdAt, block), lang) })}</dd></>}
+      <dt>{T("keepers")}</dt><dd>{kp ? (kp.n ? kp.out.map(k => <span class="pdf">{ROLE_OF[k.from] === "KEEPER_DEMO" ? T("keeper_demo") : ROLE_OF[k.from] || T("keeper_anyone")} <span class="mono">{short(k.from)}</span> · block {num(k.block, lang)}</span>) : T("keepers_none")) : <button class="linkbtn" onClick={() => keepers(e.key, e.createdAt || Math.max(0, block - 99999), block).then(setKp).catch(() => setKp({ n: 0, out: [] }))}>{T("keepers_btn")}</button>}</dd>
       <dt>{T("verify_cli")}</dt><dd class="mono copy">npx github:hapybeing/kharab-batch verify {e.key}</dd>
       <dd><a href={`${EXPLORER}/entity/${e.key}`} target="_blank" rel="noopener">{T("explorer")} ↗</a>{PUB[e.creator]?.url && <> · <a href={PUB[e.creator].url} target="_blank" rel="noopener">{T("source")} ↗</a></>}</dd>
     </dl>}

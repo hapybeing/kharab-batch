@@ -69,6 +69,18 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 ### 11. Our own: duplicate sealed alerts after an interrupted run
 - The 13 Oct 09:00 run was killed between a confirmed batch and our local ledger save; 20 CDSCO alerts exist twice (sealed, undeletable). Readers dedupe by `creator + rid` (fixture 06/23); the mirror now reconciles with the chain (`snap = key(S)`) before writing.
 
+### 12. `eth_getLogs` is capped at 100,000 blocks, which is only ~55 hours on Tiramisu
+- **Surface:** `eth_getLogs` on the public RPC (14 Oct, head ≈553,700).
+- **Repro:** `eth_getLogs({address: 0x44…44, fromBlock: "0x0", toBlock: "latest", topics: [ExpiryExtended, <entityKey>]})`.
+- **Expected:** the full history of one entity's extensions (it is filtered to one key, so the result is tiny), or a documented limit.
+- **Actual:** `-32602 query exceeds max block range 100000`. With 2 s blocks that is ~55 h, so "who kept this record alive since it was created?" needs a window loop from `$createdAt`.
+- **Impact:** our Proof drawer's "Who extended this record?" (Q18) walks 100k-block windows from the entity's creation block, then reads `tx.from` per log (see #7).
+- **Fix suggestion:** document the cap next to the events guide; allow unbounded ranges when `topics[1]` (entity key) is set; or add an `arkiv_getEntityHistory(key)` method.
+
+### 13. WebSocket delivery of large batches: works (tested after a false alarm)
+- **Surface:** raw `eth_subscribe("logs", {address, topics})` over WSS.
+- **What happened:** two of our live tests saw no events for a 212-extension batch; we suspected dropped logs. `scripts/friction/ws-batch-delivery.mjs` then extended 10/50/100/150/200 entities per tx with a filtered and an unfiltered subscription open: **every log was delivered on both** (10/10 … 200/200). The cause was our test timing (the browser closed 3 s before the renewal block). A full live run then ticked 211 gap rows in the open app with 0 HTTP reads. Recorded so others don't chase the same ghost; the only real gap is #6 (no SDK-level filter; raw `topics` filtering on `owner` works).
+
 ## What went smoothly (same rigour)
 | Tested | Expected | Happened |
 |---|---|---|
@@ -80,4 +92,6 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 | `atBlock` 100…400,000 blocks back | answers | all answered (whole chain since the 1 Oct restart) |
 | Explorer shadow RPC vs node for `key`, `bytes32`, `bool`, `u64`, `str` | same results | byte-identical attributes and counts; `check --reader both` → "2/2 readers agree" |
 | CORS on RPC, shadow RPC, explorer `/api/entity/:key` | callable from a browser | `Access-Control-Allow-Origin: *` on all three |
+| Raw `eth_subscribe("logs")` with `topics: [[EntityCreated, ExpiryExtended], null, [5 owners]]` from a browser | node-side filtering, no polling | 211 lease renewals delivered in one block; app ticked every gap row, 0 HTTP reads in 198 s (`evidence/qa/e2e-live-ws-local-2026-10-14.json`) |
+| Stranger-style "keep as record" on a sealed alert (`kharab keep … --until 2027-04` signed by KEEPER_DEMO) | accepted, visible | tx `0x2e0b7704…fdb3a1`, block 553,718; expiry moved to block 9,139,894; extender recovered via `tx.from` |
 | Keyless reads from a static site (GitHub Pages) | works with no backend | SR-13 red in 0.85 s from a cold 360×640 Chromium; ≤2 queries per check |

@@ -103,7 +103,8 @@ async function keep(key) {
   const { createWalletClient, ExpirationTime } = await import("@arkiv-network/sdk");
   const { tiramisu } = await import("@arkiv-network/sdk/chains");
   const { http } = await import("viem"); const { privateKeyToAccount } = await import("viem/accounts");
-  const pk = process.env.KEEPER_KEY || process.env.PRIVATE_KEY; if (!pk) throw new Error("set KEEPER_KEY to a funded Tiramisu key");
+  if (process.env.KHARAB_SECRETS) (await import("../lib/chain.mjs")).loadSecrets();   // key file outside the repo
+  const pk = process.env.KEEPER_KEY || process.env.PRIVATE_KEY || process.env.KEEPER_DEMO_KEY; if (!pk) throw new Error("set KEEPER_KEY to a funded Tiramisu key");
   const w = createWalletClient({ chain: tiramisu, transport: http(RPC), account: privateKeyToAccount(pk) });
   const [y, m] = until.split("-").map(Number);
   const r = await w.extendEntity({ entityKey: key, expires: ExpirationTime.atDate(new Date(Date.UTC(y, m, 0, 23, 59))) });
