@@ -1,0 +1,24 @@
+# CLI acceptance, 2026-10-14T05:51:15Z
+$ kharab check SR-13 --reader both
+Batch SR13 · RED  — failed a government lab test / stop-use notice  (block 553661)
+  • Curated notice (Telangana DCA / WHO): Coldrif Syrup (Paracetamol, Phenylephrine Hydrochloride, Chlorpheniramine Maleate Syrup) · adulterated/deg-eg · dated 04-10-2025 · exp 2027-04
+      key 0xc1bd4c42ec66aca0e5acac48e64dc47266b308322dc848d3984f1043d346fe1e  owner 0x…dEaD (sealed)
+  • Curated notice (Telangana DCA / WHO): COLDRIF (paracetamol, chlorpheniramine maleate, phenylephrine, sodium citrate) · nsq/deg-eg · dated 13-10-2025 · exp 2027-04
+      key 0xbda2b970fd053eeb73c6e663e2bb96ccfa77a1e6c6ee9461596036c9abe44b24  owner 0x…dEaD (sealed)
+  • CDSCO national list: Coldrif Syrup (Paracetamol, Phenylephrine Hydrochloride, Chlorpheniramine Syrup) · adulterated/deg-eg · list 2025-10 · exp 2027-04
+      key 0x6455c19c89a20c6f9b15d07079d92cda7dfda0738b28c38fa791abba610eedb6  owner 0x…dEaD (sealed)
+  ↳ national list 2025-10 (declared 21-11-2025) carried it 48 days after the first notice (tg, 04-10-2025)
+2/2 readers agree (node RPC block 553661, explorer index block 553657)
+The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).
+
+$ kharab verify 0xf125818e…bc81  (Karnataka alert)
+MATCH: source row hash 0xcd935b55d2769fcff6db53ef093180a5fabc312420c5129cbd1faae6550637c5 recomputed from https://kspcdic.com/nsq_records/search/0/0/0/0
+$ kharab verify 0x6455c19c…edb6  (CDSCO alert, SR13)
+MATCH: source row hash 0x00f2be82f22ed22e7348f8025db417fde616391c8873bf903088d060520a659c recomputed from https://cdscoonline.gov.in/CDSCO/viewPublicNSQDrug
+
+$ kharab snapshots --src ka
+4 source snapshots (block 553662)
+  ka       2026-10-13T03:39Z  rows   810  new   291  full  0xc4954e42a2667e8adf0a91a736094d50eb23f4eb1cf29f9c3909ebda805cb0ba
+  ka       2026-10-13T13:10Z  rows   193  new     1  PARTIAL: count 193 < half of earlier 810: short read, not removals (diff baseline 0xc4954e42a2…)  0x0cb0b77fddf55ec7c612b2166a6f994ccaca335fd8d9d5858a538bc70cae77a1
+  ka       2026-10-14T05:10Z  rows   811  new     0  full  0x8fff14b5bb1a42c034bed681b886d7248220988e39af4710952361586a50c527
+  ka       2026-10-14T05:47Z  rows   812  new     1  full  0x729ebc364c5b18729e25520b30e70200a7c7ab7f97d6cc31bf7b9d79d75e2e5b

@@ -319,7 +319,7 @@ function Inspector({ T }) {
   useEffect(() => onLog(() => force(x => x + 1)), []);
   useEffect(() => onLive(() => force(x => x + 1)), []);
   const used = budgetUsed();
-  const last = LOG[0]?.check;
+  const last = LOG.reduce((m, e) => Math.max(m, e.check), 0); // newest check, even if a screen read (check 0) finished after it
   const thisCheck = last ? LOG.filter(e => e.check === last) : [];
   const net = thisCheck.reduce((s, e) => s + (e.cached ? 0 : e.requests || 1), 0);
   return <details class="inspector">
