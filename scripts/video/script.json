@@ -1,0 +1,175 @@
+{
+ "voice": "en-IN-PrabhatNeural",
+ "rate": "+20%",
+ "note": "Each cue: en = caption text ('|' splits it into caption chunks), tts = what the voice says (pronunciation only; same words), hi = Hindi caption (same '|' chunks), vis = visual segment id. Every number is checked against work/verify/VERIFICATION.md.",
+ "cues": [
+  {
+   "id": 1,
+   "vis": "hook",
+   "en": "Coldrif cough syrup, batch SR-13,|was linked to the deaths of at least 24 children.",
+   "tts": "Coldrif cough syrup, batch S R 13, was linked to the deaths of at least 24 children.",
+   "hi": "Coldrif कफ़ सिरप, बैच SR-13,|कम से कम 24 बच्चों की मौत से जुड़ा पाया गया."
+  },
+  {
+   "id": 2,
+   "vis": "hook",
+   "en": "A parent holding that bottle types the batch number.",
+   "tts": "A parent holding that bottle types the batch number.",
+   "hi": "वह बोतल हाथ में लिए एक माता-पिता बैच नंबर टाइप करते हैं."
+  },
+  {
+   "id": 3,
+   "vis": "hook",
+   "en": "Red, in under two seconds.",
+   "tts": "Red, in under two seconds.",
+   "hi": "दो सेकंड से कम में: लाल."
+  },
+  {
+   "id": 4,
+   "vis": "hook",
+   "en": "Telangana warned the public on 4 October.|The searchable national list carried it 48 days later.",
+   "tts": "Telangana warned the public on the fourth of October. The searchable national list carried it forty-eight days later.",
+   "hi": "तेलंगाना ने 4 अक्टूबर को जनता को चेताया.|खोजने-योग्य राष्ट्रीय सूची में यह 48 दिन बाद आया."
+  },
+  {
+   "id": 5,
+   "vis": "lang",
+   "en": "India's drug warnings are scattered across states,|WHO and the national CDSCO list.",
+   "tts": "India's drug warnings are scattered across states, W H O, and the national C D S C O list.",
+   "hi": "भारत में दवा की चेतावनियाँ राज्यों, WHO और|राष्ट्रीय CDSCO सूची में बिखरी हुई हैं."
+  },
+  {
+   "id": 6,
+   "vis": "lang",
+   "en": "Kharab Batch checks them all at once,|on a phone, in Hindi or English.",
+   "tts": "Kharab Batch checks them all at once, on a phone, in Hindi or English.",
+   "hi": "ख़राब बैच? सबको एक साथ जाँचता है,|फ़ोन पर, हिंदी या अंग्रेज़ी में."
+  },
+  {
+   "id": 7,
+   "vis": "who",
+   "en": "This batch is in a WHO alert,|and a year later is still not on the national portal.",
+   "tts": "This batch is in a W H O alert, and a year later is still not on the national portal.",
+   "hi": "यह बैच WHO की चेतावनी में है,|और एक साल बाद भी राष्ट्रीय पोर्टल पर नहीं है."
+  },
+  {
+   "id": 8,
+   "vis": "who",
+   "en": "And 267 of 428 Karnataka findings since January 2025|have no row on the national list.",
+   "tts": "And 267 of 428 Karnataka findings since January 2025 have no row on the national list.",
+   "hi": "और जनवरी 2025 से कर्नाटक के 428 में से 267 नतीजों की|राष्ट्रीय सूची में कोई पंक्ति नहीं है."
+  },
+  {
+   "id": 9,
+   "vis": "proof",
+   "en": "Why Arkiv? This record only matters|if nobody, including us, can rewrite it.",
+   "tts": "Why Arkiv? This record only matters if nobody, including us, can rewrite it.",
+   "hi": "Arkiv क्यों? यह रिकॉर्ड तभी काम का है|जब कोई भी, हम भी, इसे बदल न सके."
+  },
+  {
+   "id": 10,
+   "vis": "wallets",
+   "en": "Each regulator has its own mirror wallet,|so every entity's creator shows who published it.",
+   "tts": "Each regulator has its own mirror wallet, so every entity's creator shows who published it.",
+   "hi": "हर नियामक का अपना मिरर वॉलेट है,|इसलिए हर entity का creator बताता है कि इसे किसने प्रकाशित किया."
+  },
+  {
+   "id": 11,
+   "vis": "sealed",
+   "en": "Every alert is sealed: read-only, and handed to a dead address|in the same transaction. We can't delete or backdate it.",
+   "tts": "Every alert is sealed: read-only, and handed to a dead address in the same transaction. We can't delete or backdate it.",
+   "hi": "हर चेतावनी सील है: केवल-पढ़ने योग्य, और उसी ट्रांज़ैक्शन में एक मृत पते को सौंपी गई.|हम इसे न मिटा सकते हैं, न पुरानी तारीख़ डाल सकते हैं."
+  },
+  {
+   "id": 12,
+   "vis": "proofexp",
+   "en": "Entity Expiration is the printed expiry plus 30 days:|the warning lives while the medicine can be sold.",
+   "tts": "Entity Expiration is the printed expiry plus thirty days: the warning lives while the medicine can be sold.",
+   "hi": "Entity Expiration = छपी एक्सपायरी + 30 दिन:|चेतावनी तब तक रहती है जब तक दवा बिक सकती है."
+  },
+  {
+   "id": 13,
+   "vis": "keeper",
+   "en": "With Lifetime Extension, anyone can keep a record alive.|Here, our keeper-demo wallet extended a sealed alert.",
+   "tts": "With Lifetime Extension, anyone can keep a record alive. Here, our keeper demo wallet extended a sealed alert.",
+   "hi": "Lifetime Extension से कोई भी रिकॉर्ड को जीवित रख सकता है.|यहाँ हमारे चिह्नित KEEPER_DEMO वॉलेट ने एक सील चेतावनी की उम्र बढ़ाई."
+  },
+  {
+   "id": 14,
+   "vis": "inspector",
+   "en": "Each check is one Arkiv query, shown in the inspector.",
+   "tts": "Each check is one Arkiv query, shown in the inspector.",
+   "hi": "हर जाँच एक Arkiv query है, जो inspector में दिखती है."
+  },
+  {
+   "id": 15,
+   "vis": "gap",
+   "en": "The gap ledger lists state findings missing nationally.|Each row is a lease, renewed by Lifetime Extension|only while the gap is still true.",
+   "tts": "The gap ledger lists state findings missing nationally. Each row is a lease, renewed by Lifetime Extension only while the gap is still true.",
+   "hi": "गैप लेजर उन राज्य नतीजों की सूची है जो राष्ट्रीय सूची में नहीं हैं.|हर पंक्ति एक lease है, जिसे Lifetime Extension से|सिर्फ़ तब तक बढ़ाया जाता है जब तक गैप सच है."
+  },
+  {
+   "id": 16,
+   "vis": "gap",
+   "en": "Renewals stream over one WebSocket subscription:|in our live test, 211 rows ticked with zero polling.",
+   "tts": "Renewals stream over one WebSocket subscription: in our live test, 211 rows ticked, with zero polling.",
+   "hi": "नवीनीकरण एक ही WebSocket subscription से आते हैं:|हमारे लाइव टेस्ट में 211 पंक्तियाँ बिना polling के अपडेट हुईं."
+  },
+  {
+   "id": 17,
+   "vis": "term",
+   "en": "No website needed: the CLI asks the node and the explorer's|independent reader. 2 of 2 agree.",
+   "tts": "No website needed: the C L I asks the node and the explorer's independent reader. Two of two agree.",
+   "hi": "वेबसाइट की ज़रूरत नहीं: CLI node और explorer के स्वतंत्र reader|दोनों से पूछती है. 2 में से 2 सहमत."
+  },
+  {
+   "id": 18,
+   "vis": "term",
+   "en": "Verify re-fetches the regulator's page|and recomputes the row hash: match.",
+   "tts": "Verify re-fetches the regulator's page and recomputes the row hash: match.",
+   "hi": "verify नियामक का पेज फिर से लाता है|और पंक्ति का hash दोबारा निकालता है: MATCH."
+  },
+  {
+   "id": 19,
+   "vis": "changed",
+   "en": "The national list also changes after release,|with no changelog.",
+   "tts": "The national list also changes after release, with no changelog.",
+   "hi": "राष्ट्रीय सूची जारी होने के बाद भी बदलती है,|बिना किसी changelog के."
+  },
+  {
+   "id": 20,
+   "vis": "changed",
+   "en": "June 2026: 34 rows added late.|May: 2 moved to the spurious list.|December 2025: 3 removed entirely.",
+   "tts": "June 2026: 34 rows added late. May: two moved to the spurious list. December 2025: three removed entirely.",
+   "hi": "जून 2026: 34 पंक्तियाँ देर से जोड़ी गईं.|मई: 2 नकली (spurious) सूची में भेजी गईं.|दिसंबर 2025: 3 पूरी तरह हटा दी गईं."
+  },
+  {
+   "id": 21,
+   "vis": "changed",
+   "en": "Each is checked against an archived at-release PDF, SHA-256 on chain.|In seven months: at least 137 added, 6 reclassified, 3 removed.",
+   "tts": "Each is checked against an archived at-release P D F, S H A 256 on chain. In seven months: at least 137 added, six reclassified, three removed.",
+   "hi": "हर एक को जारी-समय की संग्रहित PDF से मिलाया गया, SHA-256 चेन पर.|सात महीनों में: कम से कम 137 जोड़ी गईं, 6 का वर्ग बदला, 3 हटाई गईं."
+  },
+  {
+   "id": 22,
+   "vis": "close",
+   "en": "13 Arkiv friction items, each reproduced, are in friction.md.",
+   "tts": "Thirteen Arkiv friction items, each one reproduced, are in friction dot M D.",
+   "hi": "Arkiv की 13 friction बातें, हर एक दोहराकर जाँची गई, friction.md में हैं."
+  },
+  {
+   "id": 23,
+   "vis": "close",
+   "en": "A lab result covers only the batch tested. Not medical advice.",
+   "tts": "A lab result covers only the batch tested. Not medical advice.",
+   "hi": "लैब का नतीजा सिर्फ़ जाँचे गए बैच पर लागू होता है. यह चिकित्सा सलाह नहीं है."
+  },
+  {
+   "id": 24,
+   "vis": "close",
+   "en": "Kharab Batch is live now, and open source on GitHub.",
+   "tts": "Kharab Batch is live now, and open source on GitHub.",
+   "hi": "ख़राब बैच? अभी लाइव है, और GitHub पर ओपन सोर्स."
+  }
+ ]
+}

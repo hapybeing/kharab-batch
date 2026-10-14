@@ -1,0 +1,175 @@
+1
+00:00:00,450 --> 00:00:02,937
+Coldrif cough syrup, batch SR-13,
+
+2
+00:00:02,937 --> 00:00:06,452
+was linked to the deaths of at least 24 children.
+
+3
+00:00:06,522 --> 00:00:09,503
+A parent holding that bottle types the batch number.
+
+4
+00:00:09,573 --> 00:00:11,658
+Red, in under two seconds.
+
+5
+00:00:11,729 --> 00:00:14,560
+Telangana warned the public on 4 October.
+
+6
+00:00:14,560 --> 00:00:18,848
+The searchable national list carried it 48 days later.
+
+7
+00:00:19,047 --> 00:00:22,826
+India's drug warnings are scattered across states,
+
+8
+00:00:22,826 --> 00:00:25,903
+WHO and the national CDSCO list.
+
+9
+00:00:25,974 --> 00:00:28,076
+Kharab Batch checks them all at once,
+
+10
+00:00:28,076 --> 00:00:30,591
+on a phone, in Hindi or English.
+
+11
+00:00:30,790 --> 00:00:33,350
+This batch is in a WHO alert,
+
+12
+00:00:33,350 --> 00:00:36,948
+and a year later is still not on the national portal.
+
+13
+00:00:37,019 --> 00:00:42,881
+And 267 of 428 Karnataka findings since January 2025
+
+14
+00:00:42,881 --> 00:00:44,938
+have no row on the national list.
+
+15
+00:00:45,137 --> 00:00:48,085
+Why Arkiv? This record only matters
+
+16
+00:00:48,085 --> 00:00:51,120
+if nobody, including us, can rewrite it.
+
+17
+00:00:51,321 --> 00:00:53,517
+Each regulator has its own mirror wallet,
+
+18
+00:00:53,517 --> 00:00:56,938
+so every entity's creator shows who published it.
+
+19
+00:00:57,137 --> 00:01:00,958
+Every alert is sealed: read-only, and handed to a dead address
+
+20
+00:01:00,958 --> 00:01:05,120
+in the same transaction. We can't delete or backdate it.
+
+21
+00:01:05,321 --> 00:01:08,611
+Entity Expiration is the printed expiry plus 30 days:
+
+22
+00:01:08,611 --> 00:01:11,729
+the warning lives while the medicine can be sold.
+
+23
+00:01:11,929 --> 00:01:15,614
+With Lifetime Extension, anyone can keep a record alive.
+
+24
+00:01:15,614 --> 00:01:19,954
+Here, our keeper-demo wallet extended a sealed alert.
+
+25
+00:01:20,154 --> 00:01:23,875
+Each check is one Arkiv query, shown in the inspector.
+
+26
+00:01:24,075 --> 00:01:26,958
+The gap ledger lists state findings missing nationally.
+
+27
+00:01:26,958 --> 00:01:30,783
+Each row is a lease, renewed by Lifetime Extension
+
+28
+00:01:30,783 --> 00:01:33,142
+only while the gap is still true.
+
+29
+00:01:33,212 --> 00:01:35,908
+Renewals stream over one WebSocket subscription:
+
+30
+00:01:35,908 --> 00:01:40,506
+in our live test, 211 rows ticked with zero polling.
+
+31
+00:01:40,705 --> 00:01:45,484
+No website needed: the CLI asks the node and the explorer's
+
+32
+00:01:45,484 --> 00:01:47,886
+independent reader. 2 of 2 agree.
+
+33
+00:01:47,957 --> 00:01:50,111
+Verify re-fetches the regulator's page
+
+34
+00:01:50,111 --> 00:01:52,480
+and recomputes the row hash: match.
+
+35
+00:01:52,680 --> 00:01:55,167
+The national list also changes after release,
+
+36
+00:01:55,167 --> 00:01:56,817
+with no changelog.
+
+37
+00:01:56,887 --> 00:02:01,439
+June 2026: 34 rows added late.
+
+38
+00:02:01,439 --> 00:02:05,522
+May: 2 moved to the spurious list.
+
+39
+00:02:05,522 --> 00:02:07,485
+December 2025: 3 removed entirely.
+
+40
+00:02:07,555 --> 00:02:13,982
+Each is checked against an archived at-release PDF, SHA-256 on chain.
+
+41
+00:02:13,982 --> 00:02:19,986
+In seven months: at least 137 added, 6 reclassified, 3 removed.
+
+42
+00:02:20,186 --> 00:02:25,751
+13 Arkiv friction items, each reproduced, are in friction.md.
+
+43
+00:02:25,821 --> 00:02:30,648
+A lab result covers only the batch tested. Not medical advice.
+
+44
+00:02:30,718 --> 00:02:34,408
+Kharab Batch is live now, and open source on GitHub.

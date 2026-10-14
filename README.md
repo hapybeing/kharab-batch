@@ -4,6 +4,7 @@
 
 **Live app:** https://hapybeing.github.io/kharab-batch/ · independent mirror: https://kharab-batch.vercel.app · (Surge mirror `kharab-batch.surge.sh`: pending, see *Hosting*)
 **Docs:** [arkiv/schema.md](arkiv/schema.md) (entities, attributes, lifetimes, queries) · [arkiv/friction.md](arkiv/friction.md) · [arkiv/drug-alert-1.md](arkiv/drug-alert-1.md) (open format) · [arkiv/friction-log.md](arkiv/friction-log.md) (raw dated log)
+**Demo video (2:36, English captions; Hindi track + Hindi-captioned cut):** [watch on Pages](https://hapybeing.github.io/kharab-batch/video/kharab-batch-demo.mp4) · [release video-v1](https://github.com/hapybeing/kharab-batch/releases/tag/video-v1) · [script + timestamps](video/script.md) · captions [en](video/en.srt) / [hi](video/hi.srt)
 **Network:** Arkiv Tiramisu testnet (chain 7738577), `@arkiv-network/sdk` 0.8.1 for writes, raw JSON-RPC for reads. MIT licence.
 
 > Built for the Arkiv Global Tour Stop (9–18 Oct 2026). Tracks: Best Indian Use Case, Censorship Resistance, Open Source, Security.

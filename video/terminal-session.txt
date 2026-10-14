@@ -1,0 +1,16 @@
+# Real CLI session captured for the demo video, Wed 2026-10-14 20:09 IST, from a checkout of hapybeing/kharab-batch (Node v22.23.3)
+$ node cli/kharab.mjs check SR-13 --reader both
+Batch SR13 · RED  — failed a government lab test / stop-use notice  (block 569508)
+  • Curated notice (Telangana DCA / WHO): Coldrif Syrup (Paracetamol, Phenylephrine Hydrochloride, Chlorpheniramine Maleate Syrup) · adulterated/deg-eg · dated 04-10-2025 · exp 2027-04
+      key 0xc1bd4c42ec66aca0e5acac48e64dc47266b308322dc848d3984f1043d346fe1e  owner 0x…dEaD (sealed)
+  • Curated notice (Telangana DCA / WHO): COLDRIF (paracetamol, chlorpheniramine maleate, phenylephrine, sodium citrate) · nsq/deg-eg · dated 13-10-2025 · exp 2027-04
+      key 0xbda2b970fd053eeb73c6e663e2bb96ccfa77a1e6c6ee9461596036c9abe44b24  owner 0x…dEaD (sealed)
+  • CDSCO national list: Coldrif Syrup (Paracetamol, Phenylephrine Hydrochloride, Chlorpheniramine Syrup) · adulterated/deg-eg · list 2025-10 · exp 2027-04
+      key 0x6455c19c89a20c6f9b15d07079d92cda7dfda0738b28c38fa791abba610eedb6  owner 0x…dEaD (sealed)
+  ↳ national list 2025-10 (declared 21-11-2025) carried it 48 days after the first notice (tg, 04-10-2025)
+2/2 readers agree (node RPC block 569508, explorer index block 569504)
+The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).
+# took 1.8 s
+$ node cli/kharab.mjs verify 0x6455c19c89a20c6f9b15d07079d92cda7dfda0738b28c38fa791abba610eedb6
+MATCH: source row hash 0x00f2be82f22ed22e7348f8025db417fde616391c8873bf903088d060520a659c recomputed from https://cdscoonline.gov.in/CDSCO/viewPublicNSQDrug
+# took 35.8 s
