@@ -10,3 +10,23 @@ test("unparseable expiry stays active", () => assert.equal(verdict([al(C, "Coldr
 test("duplicate sealed alerts with the same rid count once", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "same"), al(C, "Coldrif Syrup", 202704, "same")], { allow, nowYm }).alerts.length, 1));
 test("user-named product picks the agreeing alerts", () => { const v = verdict([al(C, "Coldrif Syrup", 202704, "a"), al(K, "Amoxicillin Capsules", 202704, "b")], { allow, nowYm, product: "amoxicillin 500" }); assert.equal(v.level, "red"); assert.equal(v.alerts.length, 1); });
 test("user-named product that matches nothing → amber", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a")], { allow, nowYm, product: "Dolo" }).level, "amber"));
+
+// ---- fixtures 9–25 (SPEC §16 D2: 25 verdict fixtures) ----
+const other = (type, creator, extra = {}) => ({ key: "0x" + Math.random().toString(16).slice(2), creator, a: { type, ...extra } });
+test("09 printed expiry this month is still active → red", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202610, "a")], { allow, nowYm }).level, "red"));
+test("10 expiry last month → record (kept as record, never red)", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202609, "a")], { allow, nowYm }).level, "record"));
+test("11 one active + one expired alert of the same product → red with only the active one", () => { const v = verdict([al(C, "Coldrif Syrup", 202704, "a"), al(K, "Coldrif Syrup", 202501, "b")], { allow, nowYm }); assert.equal(v.level, "red"); assert.equal(v.alerts.length, 1); });
+test("12 no entities at all → grey", () => assert.equal(verdict([], { allow, nowYm }).level, "grey"));
+test("13 pending/link/change entities alone never make a verdict → grey", () => assert.equal(verdict([other("pending", "0xw"), other("link", "0xw"), other("change", C)], { allow, nowYm }).level, "grey"));
+test("14 allowlisted + stranger alert → red from the allowlisted one, stranger kept apart", () => { const v = verdict([al(C, "Coldrif Syrup", 202704, "a"), al(X, "Totally Different Tabs", 202704, "z")], { allow, nowYm }); assert.equal(v.level, "red"); assert.equal(v.other.length, 1); });
+test("15 a stranger cannot turn red into amber by writing a different product", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a"), al(X, "Amoxicillin Capsules", 202704, "z")], { allow, nowYm }).level, "red"));
+test("16 a stranger's extension of an expired alert does not make it red", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202401, "a")], { allow, nowYm }).level, "record"));
+test("17 three alerts linked transitively (A~B, B~C) → one product → red", () => assert.equal(verdict([al(C, "Almont-Kid Syrup", 202612, "a"), al(K, "Almont Levocetirizine Syrup", 202612, "b"), al(K, "Levocetirizine and Montelukast", 202612, "c")], { allow, nowYm }).level, "red"));
+test("18 products with no distinctive words cannot be grouped → amber", () => assert.equal(verdict([al(C, "Syrup", 202704, "a"), al(K, "Tablets IP 500 mg", 202704, "b")], { allow, nowYm }).level, "amber"));
+test("19 amber lists every distinct product for the user to pick", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a"), al(K, "Amoxicillin Capsules", 202704, "b")], { allow, nowYm }).products.length, 2));
+test("20 batch shorter than 4 characters → amber even with one product", () => { const v = verdict([al(C, "Coldrif Syrup", 202704, "a")], { allow, nowYm, batch: "S13" }); assert.equal(v.level, "amber"); assert.equal(v.short, true); });
+test("21 short batch + user names the matching product → red", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a")], { allow, nowYm, batch: "S13", product: "coldrif" }).level, "red"));
+test("22 4-character batch is long enough → red", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "a")], { allow, nowYm, batch: "SR13" }).level, "red"));
+test("23 duplicates across two publishers are NOT merged (agreement, not merging)", () => assert.equal(verdict([al(C, "Coldrif Syrup", 202704, "same"), al(K, "Coldrif Syrup", 202704, "same")], { allow, nowYm }).alerts.length, 2));
+test("24 product match is case- and punctuation-insensitive", () => assert.equal(verdict([al(C, "COLDRIF syrup", 202704, "a"), al(K, "Coldrif-Syrup (Paracetamol)", 202704, "b")], { allow, nowYm }).level, "red"));
+test("25 verdict is pure: same input → same output, input not mutated", () => { const ents = [al(C, "Coldrif Syrup", 202704, "a"), al(K, "Amoxicillin Capsules", 202704, "b")]; const before = JSON.stringify(ents); const v1 = verdict(ents, { allow, nowYm }), v2 = verdict(ents, { allow, nowYm }); assert.equal(v1.level, v2.level); assert.equal(JSON.stringify(ents), before); });
