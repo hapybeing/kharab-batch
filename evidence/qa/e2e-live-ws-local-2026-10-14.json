@@ -1,0 +1,11 @@
+{
+ "base": "http://127.0.0.1:8080/",
+ "seconds_open": 198,
+ "rows_ticked_live": 211,
+ "ws_status": "live",
+ "ws_events_matched": 219,
+ "ws_frames": 221,
+ "http_reads_while_open": 0,
+ "errors": [],
+ "pass": true
+}
