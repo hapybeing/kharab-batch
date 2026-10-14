@@ -6,14 +6,14 @@
   },
   "SR-13 red ≤2 s": {
    "pass": true,
-   "ms": 1385
+   "ms": 1221
   },
   "SR-13 lag 48 days": {
    "pass": true
   },
   "≤3 queries per check": {
    "pass": true,
-   "inspector": "इंस्पेक्टर · इस जाँच में: 1 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 3/100 प्रति 39 मिनट"
+   "inspector": "इंस्पेक्टर · इस जाँच में: 1 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 5/100 प्रति 39 मिनट"
   },
   "English toggle": {
    "pass": true
@@ -23,7 +23,7 @@
   },
   "random → grey + caveat": {
    "pass": true,
-   "batch": "QZNFJ9A9"
+   "batch": "QZI4B2S2"
   },
   "gap rows = Q4": {
    "pass": true,
@@ -41,9 +41,14 @@
    "pass": true
   },
   "no console errors": {
-   "pass": true,
-   "errors": []
+   "pass": false,
+   "errors": [
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()",
+    "Failed to load resource: the server responded with a status of 429 ()"
+   ]
   }
  },
- "fail": 0
+ "fail": 1
 }
