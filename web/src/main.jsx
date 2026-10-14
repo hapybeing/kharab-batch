@@ -123,7 +123,7 @@ function Check({ T, lang, batch }) {
     {err && <p class="err" role="alert">{err}</p>}
     {busy && <p class="muted" aria-live="polite">{T("loading")}</p>}
     {res && !busy && <Result T={T} lang={lang} r={res} product={product} setProduct={setProduct} />}
-    {!res && !busy && <Counters T={T} lang={lang} />}
+    {!res && !busy && !batch && <Counters T={T} lang={lang} />}
   </section>;
 }
 

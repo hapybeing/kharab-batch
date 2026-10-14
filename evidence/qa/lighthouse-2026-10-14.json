@@ -25,5 +25,17 @@
   "lcp": "2.2\u00a0s",
   "tbt": "50\u00a0ms",
   "cls": "0.102"
+ },
+ "https://hapybeing.github.io/kharab-batch/#/b/SR13 (final build)": {
+  "fetchTime": "2026-10-14T05:55:20.084Z",
+  "lighthouse": "12.8.2",
+  "formFactor": "mobile",
+  "scores": {
+   "performance": 64,
+   "accessibility": 100,
+   "best-practices": 100
+  },
+  "lcp": "2.8\u00a0s",
+  "tbt": "1,710\u00a0ms"
  }
 }

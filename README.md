@@ -73,7 +73,7 @@ ROOT `0x7611…147D` · MIRROR_CDSCO `0xC7bd…9Ea9` · MIRROR_KA `0x4D49…AfDd
 ## Setup
 
 ```bash
-npm i && npm test                      # 46 tests: normaliser, PII scrubber (inspector names), 25 verdict fixtures, lag, snapshot health, i18n parity
+npm i && npm test                      # 48 tests: normaliser, PII scrubber (inspector names), 25 verdict fixtures, lag, snapshot health, i18n parity
 cd web && npm i && npx vite build      # → docs/ (relative base: works at a domain root and at /kharab-batch/)
 KHARAB_SECRETS=/path/outside/repo/.env node mirror/run.mjs   # one mirror run (needs funded role keys)
 PW=…/playwright/index.mjs BASE=https://hapybeing.github.io/kharab-batch/ node scripts/e2e.mjs   # phone-viewport acceptance tests
@@ -83,7 +83,7 @@ PW=…/playwright/index.mjs BASE=https://hapybeing.github.io/kharab-batch/ node 
 
 - GitHub Pages from `main:/docs` (canonical): https://hapybeing.github.io/kharab-batch/
 - Vercel static mirror (same `docs/` files, `scripts/deploy-vercel.mjs`): https://kharab-batch.vercel.app
-- Surge (`kharab-batch.surge.sh`): planned; the Surge CLI token could not be obtained from the build sandbox on 14 Oct (see `PLAN.md`).
+- Surge (`kharab-batch.surge.sh`): planned; the Surge CLI token could not be obtained from the build sandbox on 14 Oct (see the repo history).
 - The mirror runs on Hark's scheduler (00:40/06:40/12:40/18:40 IST) because Actions secrets can't be set from our tooling; every run commits `evidence/runs/*.json`.
 
 QA evidence: `evidence/qa/` (end-to-end run on the public URL, Lighthouse mobile: performance 96, accessibility 100, best practices 100 on 14 Oct).

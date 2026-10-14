@@ -6,7 +6,7 @@
   },
   "SR-13 red ≤2 s": {
    "pass": true,
-   "ms": 845
+   "ms": 1385
   },
   "SR-13 lag 48 days": {
    "pass": true
@@ -23,13 +23,13 @@
   },
   "random → grey + caveat": {
    "pass": true,
-   "batch": "QZ25DKP7"
+   "batch": "QZNFJ9A9"
   },
   "gap rows = Q4": {
    "pass": true,
-   "rows": 211,
-   "q4": 211,
-   "expected": "211"
+   "rows": 212,
+   "q4": 212,
+   "expected": "212"
   },
   "changed feed counts + PDF sha": {
    "pass": true,
