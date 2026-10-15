@@ -35,7 +35,7 @@ const P = {
   wallets: { k: "Why Arkiv · $creator", h: "One mirror wallet per publisher", b: [
     "MIRROR_CDSCO · MIRROR_KA · MIRROR_MH · CURATOR (Telangana / WHO notices)",
     "Verdicts count only allowlisted creators; unknown writers are hidden",
-    "Honest limit: all mirror keys are ours today; <code>verify</code> re-checks each record against the source"],
+    "Open write path: anyone can run <code>kharab mirror</code>; a fresh faucet wallet re-published 91 Maharashtra rows, <code>kharab agree</code>: 91/91 identical (that demo wallet is ours too: disclosed)"],
     s: "wallets.json · arkiv/schema.md" },
   proofexp: { k: "Arkiv · Entity Expiration", h: "A warning lives as long as the batch can be sold", b: [
     "Alert: printed expiry + 30 days (SR-13: 31 May 2027)",
