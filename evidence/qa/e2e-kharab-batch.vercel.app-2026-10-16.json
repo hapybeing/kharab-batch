@@ -6,7 +6,7 @@
   },
   "SR-13 red ≤2 s": {
    "pass": true,
-   "ms": 1417
+   "ms": 863
   },
   "SR-13 lag 48 days": {
    "pass": true
@@ -15,7 +15,16 @@
    "pass": true,
    "inspector": "इंस्पेक्टर · इस जाँच में: 1 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 3/100 प्रति 39 मिनट"
   },
+  "header fits at 360 px (all language buttons visible)": {
+   "pass": true
+  },
   "English toggle": {
+   "pass": true
+  },
+  "WhatsApp share text: verdict + publisher + caveat + live link": {
+   "pass": true
+  },
+  "Kannada result card + MT label": {
    "pass": true
   },
   "R01GL2523 red + not on national portal": {
@@ -23,7 +32,10 @@
   },
   "random → grey + caveat": {
    "pass": true,
-   "batch": "QZQD08TW"
+   "batch": "QZMMS5YG"
+  },
+  "KT26012 undated MH list: no 1900 date": {
+   "pass": true
   },
   "KT26012 red + independent mirror agrees": {
    "pass": true
@@ -54,7 +66,7 @@
   },
   "about: heartbeat hours render (no [object Object])": {
    "pass": true,
-   "sample": ".CDSCO national list last ran ≈ 1 h ago0xC7bd0b3731ed69a3c769"
+   "sample": ".CDSCO national list last ran ≈ 3 h ago0xC7bd0b3731ed69a3c769"
   },
   "no console errors": {
    "pass": true,

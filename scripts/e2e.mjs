@@ -29,6 +29,8 @@ const n = +(insp.match(/(\d+)\s*(network|नेटवर्क)/) || [])[1];
 ok("≤3 queries per check", n >= 1 && n <= 3, { inspector: insp.trim() });
 // Hindi → English toggle
 await page.click(".langs button[lang=en]");
+// regression guard: in English at 360 px the three language buttons must sit fully inside the viewport (Kannada was once pushed off-screen)
+ok("header fits at 360 px (all language buttons visible)", await page.evaluate(() => { const r = [...document.querySelectorAll(".langs button")].map(b => b.getBoundingClientRect()); return r.length === 3 && r.every(x => x.left >= 0 && x.right <= window.innerWidth) && document.documentElement.scrollWidth <= window.innerWidth; }));
 ok("English toggle", (await page.textContent("[data-verdict]")).includes("Failed a government lab test") && (await page.getAttribute("html", "lang")) === "en");
 await shot("sr13-en");
 const share = decodeURIComponent((await page.getAttribute("[data-share=red]", "href").catch(() => "")) || "");
