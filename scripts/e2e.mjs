@@ -3,7 +3,7 @@
 // Asserts the SPEC §16 D2 acceptance tests that a browser can see; prints JSON; exits 1 on any failure.
 const { chromium } = await import(process.env.PW || "playwright");
 const BASE = (process.env.BASE || "http://127.0.0.1:8080/").replace(/\/?$/, "/");
-const launch = { executablePath: process.env.CHROMIUM || "/usr/bin/chromium", args: ["--no-sandbox"] };
+const launch = { executablePath: process.env.CHROMIUM || "/usr/bin/chromium", args: ["--no-sandbox", ...(process.env.CHROMIUM_ARGS ? process.env.CHROMIUM_ARGS.split(" ") : [])] };
 if (process.env.PROXY_JSON) launch.proxy = JSON.parse(process.env.PROXY_JSON);
 const browser = await chromium.launch(launch);
 const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "hi-IN" });
@@ -41,6 +41,14 @@ ok("random → grey + caveat", (await page.getAttribute("[data-verdict]", "data-
 // gap ledger rows = Q4 count (compared with an independent raw count from Node)
 await page.goto(BASE + "#/gap"); await page.waitForSelector("[data-q4]", { timeout: 20000 });
 const q4 = +(await page.getAttribute("[data-q4]", "data-q4")); const rows = await page.$$eval(".list li", l => l.length);
+const gapText = await page.textContent("main").catch(() => page.textContent("body"));
+ok("gap: no Jan 1900 / 1900 dates", !/1900/.test(gapText));
+// cold open straight onto #/gap (fresh context, no earlier check in this session): header must count the screen's reads
+const ctx2 = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, locale: "en-IN" }); const p2 = await ctx2.newPage();
+p2.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
+await p2.goto(BASE + "#/gap"); await p2.waitForSelector("[data-q4]", { timeout: 20000 }); await p2.waitForTimeout(800);
+const gapInsp = (await p2.textContent(".inspector summary")).trim(); await ctx2.close();
+ok("gap: inspector header counts screen reads (not 'no reads yet')", !/no reads yet|अभी कोई पठन नहीं/.test(gapInsp), { inspector: gapInsp });
 ok("gap rows = Q4", rows === q4 && (!process.env.Q4 || q4 === +process.env.Q4), { rows, q4, expected: process.env.Q4 });
 await shot("gap");
 // changed feed: Jun-26 +34, May-26 2 reclassified, Dec-25 3 removed, each with PDF sha
@@ -53,6 +61,9 @@ await shot("changed");
 // about: partial KA snapshot flagged
 await page.goto(BASE + "#/about"); await page.waitForSelector("[data-partial]", { timeout: 20000 });
 ok("partial KA snapshot flagged", (await page.$$("[data-partial='1']")).length >= 1);
+await page.waitForTimeout(1500);
+const about = await page.textContent("body");
+ok("about: heartbeat hours render (no [object Object])", !about.includes("[object Object]") && /≈\s*[\d.,०-९]+\s*(h|घं)/.test(about), { sample: (about.match(/.{0,30}≈.{0,30}/) || [""])[0] });
 ok("no console errors", errors.length === 0, { errors });
 out.fail = fail; console.log(JSON.stringify(out, null, 1));
 await browser.close(); process.exit(fail ? 1 : 0);

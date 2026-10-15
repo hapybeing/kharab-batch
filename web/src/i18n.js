@@ -59,7 +59,7 @@ export const STR = {
     wallets: "Publisher wallets (creators)", publishers_live: "Publishers: is each mirror alive?",
     hb_sub: "Each mirror wallet keeps a heartbeat entity whose 30 h lease it renews every run. No heartbeat = the mirror stopped, so its gap counts are frozen.",
     hb_last: "last ran ≈ {h} h ago", hb_stale: "STALE: no heartbeat in 30 h", hb_degraded: "last run degraded (a source fetch failed)",
-    inspector: "Inspector", insp_check: "this check: {n} network queries, {c} from cache", insp_idle: "no reads yet", budget: "read budget {n}/{max} per 39 min",
+    inspector: "Inspector", insp_check: "this check: {n} network queries, {c} from cache", insp_idle: "no reads yet", insp_screen: "this screen: {n} network queries, {c} from cache", budget: "read budget {n}/{max} per 39 min",
     insp_note: "Every Arkiv read this page made, newest first. No timers, no polling: reads happen only when you search or open a screen. Results are cached on this phone (IndexedDB).",
   },
   hi: {
@@ -121,7 +121,7 @@ export const STR = {
     wallets: "प्रकाशक वॉलेट (निर्माता)", publishers_live: "प्रकाशक: क्या हर मिरर चालू है?",
     hb_sub: "हर मिरर वॉलेट एक हार्टबीट एंटिटी रखता है जिसकी 30 घंटे की लीज़ वह हर रन पर नवीनीकृत करता है। हार्टबीट नहीं = मिरर रुक गया, इसलिए उसकी अंतर-गिनती जमी हुई है।",
     hb_last: "आख़िरी रन ≈ {h} घंटे पहले", hb_stale: "पुराना: 30 घंटे से हार्टबीट नहीं", hb_degraded: "पिछला रन अधूरा (किसी स्रोत से डेटा नहीं मिला)",
-    inspector: "इंस्पेक्टर", insp_check: "इस जाँच में: {n} नेटवर्क क्वेरी, {c} कैश से", insp_idle: "अभी कोई पठन नहीं", budget: "पठन बजट {n}/{max} प्रति 39 मिनट",
+    inspector: "इंस्पेक्टर", insp_check: "इस जाँच में: {n} नेटवर्क क्वेरी, {c} कैश से", insp_idle: "अभी कोई पठन नहीं", insp_screen: "इस स्क्रीन पर: {n} नेटवर्क क्वेरी, {c} कैश से", budget: "पठन बजट {n}/{max} प्रति 39 मिनट",
     insp_note: "इस पेज के हर Arkiv पठन की सूची, नए पहले। कोई टाइमर नहीं, कोई पोलिंग नहीं: पठन तभी होता है जब आप खोजते हैं या स्क्रीन खोलते हैं। नतीजे इसी फ़ोन पर (IndexedDB) कैश होते हैं।",
   },
 };

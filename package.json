@@ -1,7 +1,7 @@
 {
   "name": "kharab-batch",
   "version": "0.1.0",
-  "description": "Kharab Batch? \u2014 a sealed witness ledger for India's drug alerts on Arkiv, the Web3 database",
+  "description": "Kharab Batch? — a sealed witness ledger for India's drug alerts on Arkiv, the Web3 database",
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -18,5 +18,8 @@
   "dependencies": {
     "@arkiv-network/sdk": "0.8.1",
     "viem": "2.57.5"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.48.2"
   }
 }

@@ -342,7 +342,7 @@ function Inspector({ T }) {
   const thisCheck = last ? LOG.filter(e => e.check === last) : [];
   const net = thisCheck.reduce((s, e) => s + (e.cached ? 0 : e.requests || 1), 0);
   return <details class="inspector">
-    <summary>{T("inspector")} · {last ? T("insp_check", { n: net, c: thisCheck.filter(e => e.cached).length }) : T("insp_idle")} · <span>{T("budget", { n: used, max: BUDGET })}</span></summary>
+    <summary>{T("inspector")} · {last ? T("insp_check", { n: net, c: thisCheck.filter(e => e.cached).length }) : LOG.length ? T("insp_screen", { n: LOG.reduce((s, e) => s + (e.cached ? 0 : e.requests || 1), 0), c: LOG.filter(e => e.cached).length }) : T("insp_idle")} · <span>{T("budget", { n: used, max: BUDGET })}</span></summary>
     <div class="meter" role="meter" aria-valuemin="0" aria-valuemax={BUDGET} aria-valuenow={used} aria-label={T("budget", { n: used, max: BUDGET })}><i style={{ width: Math.min(100, used) + "%" }} /></div>
     <p class="small">{T("insp_note")}</p>
     <p class="small" data-ws-events={STATS.events} data-ws-status={STATS.status}><b>WebSocket</b> · {T("insp_ws", { s: STATS.status, sub: STATS.subId ? STATS.subId.slice(0, 10) + "…" : "—", n: STATS.events, x: STATS.extended, c: STATS.created, q: STATS.queries })}<br /><code>eth_subscribe("logs", {"{"}address: 0x44…44, topics: [[EntityCreated, ExpiryExtended], *, owner ∈ our 5 wallets]{"}"})</code></p>
