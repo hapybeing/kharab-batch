@@ -4,7 +4,7 @@ import { releaseOf } from "../../lib/dates.mjs";
 import { call } from "../../lib/read.mjs";
 import { query, queryAll, verdict, nationalLag, snapshotStatus, Q, normBatch, SELECT } from "../../lib/read.mjs";
 import W from "../../wallets.json";
-import { t } from "./i18n.js";
+import { t, STR } from "./i18n.js";
 import { run, newCheck, LOG, onLog, budgetUsed, BUDGET, recents, addRecent, getList, setList } from "./data.js";
 import { startLive, onLive, STATS } from "./live.js";
 import "./style.css";
@@ -30,7 +30,7 @@ const IST = 19800e3;
 const nowYm = (() => { const d = new Date(Date.now() + IST); return d.getUTCFullYear() * 100 + d.getUTCMonth() + 1; })();
 const todayUTC = (() => { const d = new Date(Date.now() + IST); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); })();
 const ymd2date = n => new Date(Date.UTC(Math.floor(n / 10000), Math.floor(n / 100) % 100 - 1, n % 100));
-const loc = lang => (lang === "hi" ? "hi-IN" : "en-IN");
+const loc = lang => (lang === "hi" ? "hi-IN" : lang === "kn" ? "kn-IN" : "en-IN");
 const fmtYmd = (n, lang) => n ? ymd2date(n).toLocaleDateString(loc(lang), { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "";
 const fmtYm = (n, lang) => n >= 200001 ? new Date(Date.UTC(Math.floor(n / 100), n % 100 - 1, 1)).toLocaleDateString(loc(lang), { month: "short", year: "numeric", timeZone: "UTC" }) : "—";
 const fmtDate = (ms, lang) => new Date(ms).toLocaleDateString(loc(lang), { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
@@ -66,10 +66,11 @@ function App() {
   return <div class="wrap">
     <header>
       <h1><a href="#/check">{T("app")}</a></h1>
-      <div class="langs" role="group" aria-label="Language / भाषा">{["hi", "en"].map(l => <button aria-pressed={l === lang} class={l === lang ? "on" : ""} lang={l} onClick={() => setLang(l)}>{l === "hi" ? "हिंदी" : "EN"}</button>)}</div>
+      <div class="langs" role="group" aria-label="Language / भाषा">{["hi", "en", "kn"].map(l => <button aria-pressed={l === lang} class={l === lang ? "on" : ""} lang={l} onClick={() => setLang(l)}>{{ hi: "हिंदी", en: "EN", kn: "ಕನ್ನಡ" }[l]}</button>)}</div>
     </header>
     {hit && <div class="banner" role="alert">⛔ {T("banner_hit", { src: hit.src.toUpperCase() })} {hit.hits.map(e => <a class="pill" href={"#/b/" + e.a.batch} onClick={() => setHit(null)}>{e.a.batch}</a>)}</div>}
     <nav aria-label={T("nav")}>{["check", "gap", "changed", "list", "about"].map(k => <a href={"#/" + k} aria-current={r.tab === k ? "page" : undefined} class={r.tab === k ? "on" : ""}>{T("tabs_" + k)}</a>)}</nav>
+    {lang === "kn" && <p class="small muted" data-mt="kn">{STR.kn.mt_note}</p>}
     <main>
       {r.tab === "check" && <Check T={T} lang={lang} batch={r.batch} />}
       {r.tab === "gap" && <Gap T={T} lang={lang} />}

@@ -31,6 +31,11 @@ ok("≤3 queries per check", n >= 1 && n <= 3, { inspector: insp.trim() });
 await page.click(".langs button[lang=en]");
 ok("English toggle", (await page.textContent("[data-verdict]")).includes("Failed a government lab test") && (await page.getAttribute("html", "lang")) === "en");
 await shot("sr13-en");
+// Kannada (partial, machine-translated, labelled) on the result card, then back to English for the rest of the run
+await page.click(".langs button[lang=kn]");
+ok("Kannada result card + MT label", (await page.textContent("[data-verdict]")).includes("ವಿಫಲ") && (await page.$("[data-mt=kn]")) !== null && (await page.getAttribute("html", "lang")) === "kn");
+await shot("sr13-kn");
+await page.click(".langs button[lang=en]");
 // R01GL2523 → red + not on national portal
 await page.goto(BASE + "#/b/R01GL2523"); await page.waitForSelector("[data-verdict]", { timeout: 15000 });
 ok("R01GL2523 red + not on national portal", (await page.getAttribute("[data-verdict]", "data-verdict")) === "red" && (await page.textContent("[data-national=absent]")).includes("not on the national"));

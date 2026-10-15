@@ -9,3 +9,7 @@ test("every T('key') literal used by the app exists in en", () => {
 });
 test("placeholders match between languages", () => { for (const k in STR.en) assert.deepEqual((STR.hi[k].match(/\{\w+\}/g) || []).sort(), (STR.en[k].match(/\{\w+\}/g) || []).sort(), k); });
 test("vocabulary rule: never 'TTL'", () => { for (const l in STR) for (const k in STR[l]) assert.ok(!/\bTTL\b/.test(STR[l][k]), k); });
+test("kn (partial, machine-translated) only uses known keys with matching placeholders", () => {
+  for (const k in STR.kn) { if (k === "mt_note") continue; assert.ok(k in STR.en, "unknown kn key " + k); assert.deepEqual((STR.kn[k].match(/\{\w+\}/g) || []).sort(), (STR.en[k].match(/\{\w+\}/g) || []).sort(), k); }
+  assert.ok(/machine-translated/.test(STR.kn.mt_note));
+});
