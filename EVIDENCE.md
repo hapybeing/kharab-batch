@@ -11,7 +11,7 @@ Everything here can be checked on the Tiramisu explorer (`https://tiramisu.explo
 | 16 Oct 2026 | `evidence/qa/e2e-hapybeing.github.io-2026-10-16.json`, `evidence/qa/e2e-kharab-batch.vercel.app-2026-10-16.json` | all checks pass on both URLs, 0 console errors |
 | 14 Oct 2026 | `evidence/qa/e2e-*-2026-10-14.json` | see `evidence/qa/README.md` (one 429 console line explained there) |
 
-Checks: Hindi default · SR-13 red ≤ 2 s cold · 48-day lag · ≤ 3 queries per check · English toggle · R01GL2523 "not on the national portal" · KT26012 red + independent mirror agrees (no 1900 date) · random → grey + caveat · gap rows = Q4 · no "Jan 1900" in the gap ledger · inspector counts screen reads on a cold open · changed-feed counts + PDF sha · partial KA snapshot flagged · heartbeat hours render · independent mirror listed · 0 console errors.
+Checks: Hindi default · SR-13 red ≤ 2 s cold · 48-day lag · ≤ 3 queries per check · English toggle · R01GL2523 "not on the national portal" · KT26012 red + independent mirror agrees (no 1900 date) · random → grey + caveat · gap rows = Q4 · no "Jan 1900" in the gap ledger · inspector counts screen reads on a cold open · changed-feed counts + PDF sha · partial KA snapshot flagged · heartbeat hours render · independent mirror listed · Kannada result card + MT label · WhatsApp share text · 0 console errors.
 
 ## Third-party mirror (16 Oct 2026, ~01:17–01:25 IST)
 

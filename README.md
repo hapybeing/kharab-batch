@@ -1,6 +1,6 @@
 # Kharab Batch? (ख़राब बैच?)
 
-**Type the batch number from a medicine strip or syrup bottle. If an Indian regulator failed that batch, the screen turns red and shows who published it, when it was first public (an Arkiv block nobody can backdate, including us), and whether the national list carries it. Hindi first, phone first, no login, no wallet.**
+**Type the batch number from a medicine strip or syrup bottle. If an Indian regulator failed that batch, the screen turns red and shows who published it, when it was first public (an Arkiv block nobody can backdate, including us), and whether the national list carries it. Hindi first (English, and machine-translated Kannada on the core screens), phone first, no login, no wallet.**
 
 | | |
 |---|---|
@@ -86,6 +86,8 @@ Sample transactions: [EVIDENCE.md](EVIDENCE.md).
 | any random string | **Grey** + "This is not a safety guarantee" |
 | *Gap ledger* tab | 212 Karnataka/Maharashtra findings the national list does not carry; each row is an Arkiv lease re-checked every mirror run |
 | *Changed* tab | Jun 2026 **+34** rows added after release · May 2026 **2** moved to the spurious list · Dec 2025 **3** removed from every month, each with the sha256 of the archived at-release PDF |
+| *Share (WhatsApp)* on any result | the verdict, who published it, the caveat, and a link that re-reads Arkiv when opened (a forward can't go stale like a screenshot) |
+| *ಕನ್ನಡ* button | check + result screens in Kannada (machine-translated, labelled on screen; other screens fall back to English) |
 | *Inspector* (bottom of every screen) | the exact Arkiv queries each screen made: **1** for a hit, **2** for a miss, 0 when cached in IndexedDB |
 
 More CLI: `check <batch> --reader both` · `gap --src ka --min-days 60` · `changes --month 2026-06` · `snapshots` · `verify <entityKey>` (re-fetches the regulator's page and recomputes the row hash) · `mirror` · `agree`.
