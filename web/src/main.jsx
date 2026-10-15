@@ -66,7 +66,7 @@ function App() {
   return <div class="wrap">
     <header>
       <h1><a href="#/check">{T("app")}</a></h1>
-      <div class="langs" role="group" aria-label="Language / भाषा">{["hi", "en", "kn"].map(l => <button aria-pressed={l === lang} class={l === lang ? "on" : ""} lang={l} onClick={() => setLang(l)}>{{ hi: "हिंदी", en: "EN", kn: "ಕನ್ನಡ" }[l]}</button>)}</div>
+      <div class="langs" role="group" aria-label="Language / भाषा">{["hi", "en", "kn"].map(l => <button aria-pressed={l === lang} class={l === lang ? "on" : ""} lang={l} aria-label={{ hi: "हिंदी", en: "English", kn: "ಕನ್ನಡ" }[l]} title={{ hi: "हिंदी", en: "English", kn: "ಕನ್ನಡ" }[l]} onClick={() => setLang(l)}>{{ hi: "हिं", en: "EN", kn: "ಕನ್" }[l]}</button>)}</div>
     </header>
     {hit && <div class="banner" role="alert">⛔ {T("banner_hit", { src: hit.src.toUpperCase() })} {hit.hits.map(e => <a class="pill" href={"#/b/" + e.a.batch} onClick={() => setHit(null)}>{e.a.batch}</a>)}</div>}
     <nav aria-label={T("nav")}>{["check", "gap", "changed", "list", "about"].map(k => <a href={"#/" + k} aria-current={r.tab === k ? "page" : undefined} class={r.tab === k ? "on" : ""}>{T("tabs_" + k)}</a>)}</nav>
