@@ -1,0 +1,31 @@
+Batch R01GL2523 · RED  — failed a government lab test / stop-use notice  (block 622150)
+  • Curated notice (Telangana DCA / WHO): Respifresh TR (bromhexine hydrochloride, terbutaline sulphate, guaiphenesin, menthol) · nsq/deg-eg · dated 13-10-2025 · exp 2026-12
+      key 0xe83558d58e2ab028981bbc836e05c7b7f3301ce48156032ad46bc2e7aa0f3b1f  owner 0x…dEaD (sealed)
+  • Curated notice (Telangana DCA / WHO): Respifresh TR Cough Syrup (Bromhexine Hydrochloride, Terbutaline Sulphate, Guaiphenesin and Menthol Syrup) · adulterated/deg-eg · dated 08-10-2025 · exp 2026-12
+      key 0x790393d2aa0dfafaea30d1c1805337b6065912222ba8614d4ff843ae4c7a0ce1  owner 0x…dEaD (sealed)
+  ↳ NOT on the national CDSCO portal (no NSQ or spurious row for this batch in any month the mirror reads)
+The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).
+---
+212 state findings not on the national list (block 622151)
+  KA  03BF2358       waiting  652 d  exp 2026-11  0xd4d151cf352766cc3888631b950e6340bebb8f289a4972eeb4179467c0dcad7f
+  KA  04BF0722       waiting  650 d  exp 2027-01  0x526b1e5223de65dd2868b3cdf984b01e17ceb3f21f9da1684e3ac980e913734f
+  KA  03BF2260       waiting  647 d  exp —  0xe712758835cf339523a15b3d72d298f050c7a0e54b92263602826be0566b1c15
+---
+34 changes in list 2026-06: { added_late: 34 }
+  2026-06 added_late    SPOT260026B    reconstructed  before 0x20d1f99726d3… after 0x8507f73385a7…
+  2026-06 added_late    D251058A       reconstructed  before 0x20d1f99726d3… after 0xe6f3079ae288…
+---
+Batch KT26012 · RED  — failed a government lab test / stop-use notice  (block 622152)
+  • Maharashtra FDA: FAMOTIDINE TABLETS USP 40 MG · nsq/assay · undated list (publisher gives no date) · exp 2028-02
+      key 0xfc813a5b019b1711884d38d06d55b68fdcb476c3833b028ce4ab56d0d5ad6473  owner 0x…dEaD (sealed)
+  ↳ NOT on the national CDSCO portal (no NSQ or spurious row for this batch in any month the mirror reads)
+  ⏳ state finding not on the national list since 13-10-2026 (lease renewed by each observation; expires at block 685599)
+  ✓ independently re-published with the same row hash by 0x1b793ad502b611e5e62cdc288f1741fc46166000 (not in the allowlist: shown, never counted)
+The failure is specific to the batch tested; it does not cover other batches of the product (CDSCO).
+---
+Source MH · publisher A 0x25FD47556c8b93F98AC6fD0b53a9BD5648433b93 (Maharashtra FDA) 91 alerts · publisher B 0x1b793ad502b611e5e62cdc288f1741fc46166000 91 alerts (91 sealed)  (blocks 622152/622152)
+  91/91 of B's rows: same row identity and same row hash as A  → AGREE
+  0 same identity, different content
+  0 only in B
+  0 only in A (e.g. rows A sealed earlier whose printed expiry has since passed, so a fresh mirror skips them)
+Apps should SHOW agreement, never merge: each claim keeps its own $creator.

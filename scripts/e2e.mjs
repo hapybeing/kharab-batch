@@ -40,6 +40,7 @@ await page.goto(BASE + "#/b/" + rnd); await page.waitForSelector("[data-verdict]
 ok("random → grey + caveat", (await page.getAttribute("[data-verdict]", "data-verdict")) === "grey" && (await page.textContent(".card")).includes("not a safety guarantee"), { batch: rnd });
 // independent mirror: an MH batch shows the third-party re-publisher with the same row hash (shown, not merged)
 await page.goto(BASE + "#/b/KT26012"); await page.waitForSelector("[data-verdict]", { timeout: 15000 });
+ok("KT26012 undated MH list: no 1900 date", !/1900/.test(await page.textContent(".pubs")));
 ok("KT26012 red + independent mirror agrees", (await page.getAttribute("[data-verdict]", "data-verdict")) === "red" && +(await page.getAttribute("[data-indep]", "data-indep").catch(() => 0)) >= 1);
 // gap ledger rows = Q4 count (compared with an independent raw count from Node)
 await page.goto(BASE + "#/gap"); await page.waitForSelector("[data-q4]", { timeout: 20000 });

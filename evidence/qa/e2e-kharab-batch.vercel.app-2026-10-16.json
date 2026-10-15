@@ -6,7 +6,7 @@
   },
   "SR-13 red ≤2 s": {
    "pass": true,
-   "ms": 1934
+   "ms": 1417
   },
   "SR-13 lag 48 days": {
    "pass": true
@@ -23,7 +23,10 @@
   },
   "random → grey + caveat": {
    "pass": true,
-   "batch": "QZZJDSMC"
+   "batch": "QZQD08TW"
+  },
+  "KT26012 red + independent mirror agrees": {
+   "pass": true
   },
   "gap: no Jan 1900 / 1900 dates": {
    "pass": true
@@ -44,6 +47,9 @@
    "dec": "3"
   },
   "partial KA snapshot flagged": {
+   "pass": true
+  },
+  "about: independent mirror listed with heartbeat": {
    "pass": true
   },
   "about: heartbeat hours render (no [object Object])": {

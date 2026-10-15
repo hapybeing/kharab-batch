@@ -21,7 +21,7 @@ const [cmd, ...rest] = process.argv.slice(2);
 const opt = (n, d) => { const i = rest.indexOf("--" + n); return i >= 0 ? rest[i + 1] : d; };
 const nowYm = (() => { const d = new Date(Date.now() + 19800e3); return d.getUTCFullYear() * 100 + d.getUTCMonth() + 1; })();
 const ymdTxt = n => n ? `${String(n).slice(6, 8)}-${String(n).slice(4, 6)}-${String(n).slice(0, 4)}` : "";
-const ymTxt = n => n ? `${String(n).slice(0, 4)}-${String(n).slice(4, 6)}` : "?";
+const ymTxt = n => n >= 200001 ? `${String(n).slice(0, 4)}-${String(n).slice(4, 6)}` : "—";   // 190001 = unparseable printed expiry
 
 async function check(batchIn) {
   const batch = normBatch(batchIn);
@@ -35,7 +35,7 @@ async function check(batchIn) {
   console.log(`Batch ${batch} · ${label}  (block ${r.block})`);
   for (const e of v.alerts) {
     const a = e.a;
-    console.log(`  • ${NAME[e.creator] || e.creator}: ${a.pname} · ${a.class}/${a.test} · ${a.src_ymd ? "dated " + ymdTxt(a.src_ymd) : "list " + ymTxt(a.src_ym)} · exp ${ymTxt(a.exp_ym)}`);
+    console.log(`  • ${NAME[e.creator] || e.creator}: ${a.pname} · ${a.class}/${a.test} · ${a.src_ymd ? "dated " + ymdTxt(a.src_ymd) : a.src_ym ? "list " + ymTxt(a.src_ym) : "undated list (publisher gives no date)"} · exp ${ymTxt(a.exp_ym)}`);
     console.log(`      key ${e.key}  owner ${e.owner === "0x000000000000000000000000000000000000dead" ? "0x…dEaD (sealed)" : e.owner}`);
   }
   const lag = nationalLag(v.alerts, low(W.MIRROR_CDSCO));
@@ -45,7 +45,12 @@ async function check(batchIn) {
   for (const e of r.entities.filter(x => x.a.type === "pending")) console.log(`  ⏳ state finding not on the national list since ${ymdTxt(e.a.since_ymd)} (lease renewed by each observation; expires at block ${e.expiresAt})`);
   for (const e of r.entities.filter(x => x.a.type === "link")) console.log(`  ↳ national list carried it ${e.a.lag_d} days after the state date (${e.a.lag_basis})`);
   for (const e of r.entities.filter(x => x.a.type === "change")) console.log(`  ⚠ change: ${e.a.kind} (${e.a.evid}) in list ${ymTxt(e.a.list_ym)}`);
-  if (v.other.length) console.log(`  (${v.other.length} entities by other writers hidden; not in the publisher allowlist)`);
+  const vetted = new Map(v.alerts.map(e => [e.a.rid, e.a.row]));
+  const indep = v.other.filter(e => vetted.get(e.a.rid) === e.a.row), differ = v.other.filter(e => vetted.has(e.a.rid) && vetted.get(e.a.rid) !== e.a.row);
+  if (indep.length) console.log(`  ✓ independently re-published with the same row hash by ${[...new Set(indep.map(e => e.creator))].join(", ")} (not in the allowlist: shown, never counted)`);
+  if (differ.length) console.log(`  ≠ ${differ.length} record(s) by another wallet carry this row identity with DIFFERENT content`);
+  const rest_ = v.other.length - indep.length - differ.length;
+  if (rest_) console.log(`  (${rest_} entities by other writers hidden; not in the publisher allowlist)`);
   if (results.length === 2) {
     const sig = x => x.entities.map(e => e.key + JSON.stringify(e.a) + e.creator + e.owner).sort().join("|");
     console.log(sig(results[0]) === sig(results[1]) ? `2/2 readers agree (node RPC block ${results[0].block}, explorer index block ${results[1].block})` : "READERS DISAGREE (one may lag a few blocks; re-run)");

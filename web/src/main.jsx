@@ -156,7 +156,7 @@ function Result({ T, lang, r, product, setProduct }) {
       <h2 class="h3">{T("publishers")}</h2>
       <ul class="pubs">{sorted.map(e => <li>
         <span class="chip">{pubName(e, lang)}</span>
-        {" "}{e.a.src_ymd ? fmtYmd(e.a.src_ymd, lang) : `${T("list")} ${fmtYm(e.a.src_ym, lang)} (${releaseOf(e.a.src_ym).basis === "declared" ? T("declared") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang) : T("released_after") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang)})`} · {T("cls_" + e.a.class) || e.a.class}{e.a.test && e.a.test !== "na" ? " · " + (T("test_" + e.a.test) || e.a.test) : ""}
+        {" "}{e.a.src_ymd ? fmtYmd(e.a.src_ymd, lang) : !e.a.src_ym ? T("undated_list") : `${T("list")} ${fmtYm(e.a.src_ym, lang)} (${releaseOf(e.a.src_ym).basis === "declared" ? T("declared") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang) : T("released_after") + " " + fmtYmd(releaseOf(e.a.src_ym).ymd, lang)})`} · {T("cls_" + e.a.class) || e.a.class}{e.a.test && e.a.test !== "na" ? " · " + (T("test_" + e.a.test) || e.a.test) : ""}
         <Proof T={T} lang={lang} e={e} block={r.block} />
       </li>)}</ul>
       {lag?.status === "absent" && <p class="gapline" data-national="absent">↳ {T("national")}: <b>{T("not_national")}</b><br /><small>{T("not_national_sub")}</small></p>}

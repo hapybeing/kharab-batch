@@ -81,6 +81,17 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 - **Surface:** raw `eth_subscribe("logs", {address, topics})` over WSS.
 - **What happened:** two of our live tests saw no events for a 212-extension batch; we suspected dropped logs. `scripts/friction/ws-batch-delivery.mjs` then extended 10/50/100/150/200 entities per tx with a filtered and an unfiltered subscription open: **every log was delivered on both** (10/10 … 200/200). The cause was our test timing (the browser closed 3 s before the renewal block). A full live run then ticked 211 gap rows in the open app with 0 HTTP reads. Recorded so others don't chase the same ghost; the only real gap is #6 (no SDK-level filter; raw `topics` filtering on `owner` works).
 
+### 14. A new publisher hits the gas cap (#1) on its very first write
+- **Context (16 Oct 01:17 IST):** running our open `kharab mirror --src mh` from a brand-new wallet (THIRD_PARTY_DEMO `0x1b793aD502B611e5E62cdc288F1741fc46166000`, funded 10 GLM by the Hub faucet), with the CLI's first draft batching 40 alerts + 40 seal transfers per tx.
+- **Expected:** either success or an error naming the limit.
+- **Actual:** the snapshot tx (1 create + seal, 204,672 gas) landed; the 40+40 alert batch failed with `Transaction failed: Execution error without revert data` (`@arkiv-network/sdk` 0.8.1). Same root cause as #1, rediscovered by a "third party" who had not read our notes: the cap is invisible to every new integrator.
+- **Repro:** `MIRROR_KEY=<fresh funded key> CHUNK=40 node cli/kharab.mjs mirror --src mh`.
+- **Fix in our CLI:** default 20 per tx; a re-run resumes from the already-sealed snapshot (looked up by `rows = bytes32(…)` under the same `$creator`) instead of sealing a duplicate. The real run then wrote 91 sealed alerts in 5 txs (`0x7671d404…`, `0x1b628ea6…`, `0x9af0753a…`, `0x6643fe13…`, `0x84cd3e79…`).
+- **Suggestion:** same as #1: a named error and auto-chunking in `executeBatch`.
+
+### 10b. Faucet update: headless claim works once you hold a captcha token
+- On 16 Oct the Hub faucet funded a fresh wallet headlessly: SIWE nonce → verify → `POST /api/faucet {recipient, captchaToken}` → `202 accepted, amountGlm "10"`, balance 10 GLM a few seconds later. The only browser step left is solving the Cap widget for the token. Still worth an API path for CI (#10).
+
 ## What went smoothly (same rigour)
 | Tested | Expected | Happened |
 |---|---|---|

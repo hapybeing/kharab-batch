@@ -18,6 +18,7 @@ Trust comes from `$creator`, never from an attribute anyone can type. Addresses:
 | WATCH | `0xb36181b9b26613284863Ddf3b6b939967986aF0E` | `pending`, `link`, `heartbeat` | our matcher; labelled "computed by our matcher, not a government statement" |
 | HISTORY | `0xa37a95a6f431d6AC5F9429DfE384FaD2537aFD6f` | `change` (evid=reconstructed) | from archived at-release PDFs |
 | KEEPER_DEMO | `0x024f89A3eEa3BD52a043e664dE1EdA438260B876` | — (extends only) | labelled demo of "keep as record" |
+| THIRD_PARTY_DEMO *(not in the allowlist)* | `0x1b793aD502B611e5E62cdc288F1741fc46166000` | `alert` (src=mh), `snapshot`, `heartbeat` (`label`) | an independent mirror run with `kharab mirror` from a fresh faucet-funded wallet on 16 Oct. **Disclosure: this wallet is also ours**; it proves the open path end to end. Never counted in a verdict; shown as "independently re-published, same row hash" |
 
 ## 2. Common attributes
 
@@ -68,7 +69,9 @@ Payload: before/after rows verbatim + both source URLs + sha256. **Expiration:**
 `sa` key · `na` key · `lag_d` i32 (source-dated days) · `lag_basis` str (`declared`/`lower-bound`/`undated`) · `lag_w` u64 · `witnessed` bool. Written in the **same batch** as the national alert. Expiration = state alert life. Sealed.
 
 ### `heartbeat` — one per mirror wallet
-`src` · `mver` (e.g. `mirror/1.0`, `+degraded`). 30 h lease extended each run.
+`src` · `mver` (e.g. `mirror/1.0`, `+degraded`). 30 h lease extended each run. Third-party mirrors add `label` (str, self-declared) and `mver = kharab-cli/0.1 third-party`.
+
+**Third-party mirrors (open write path).** Anyone runs `MIRROR_KEY=… npx github:hapybeing/kharab-batch mirror --src mh|ka`: same `drug-alert/1` shapes (sealed snapshot + sealed alerts with `snap = key(S)` + heartbeat), under *their* `$creator`. Readers compare by row identity: `kharab agree --src mh` → for every `rid` the other wallet published, is the `row` hash identical to ours (Q20/Q21 below)? Apps **show** agreement and **never merge**: the verdict counts the ROOT allowlist only.
 
 ### `params` — ROOT registry
 `schema` bytes32. Payload: publishers (name en/hi, creator, source URL), normaliser version, caveats. 400 d.
@@ -104,6 +107,8 @@ Payload: before/after rows verbatim + both source URLs + sha256. **Expiration:**
 | Q13 | Publisher track record | `… type = str('alert') AND $creator = addr($K)` |
 | Q14 | Heartbeats | `app = str('kharab') AND type = str('heartbeat')` |
 | Q19 | Snapshot health | `app = str('kharab') AND type = str('snapshot')` → `snapshotStatus()` |
+| Q20 | One publisher's copy of a source (agreement) | `app = str('kharab') AND type = str('alert') AND src = str('mh') AND $creator = addr($K)` (run for both wallets; compare `rid` → `row`) |
+| Q21 | Independent mirrors | Q14 results whose `$creator` is not in `wallets.json` (About → Independent mirrors) |
 | Q17 | Second reader | Q1 via `POST https://tiramisu.explorer.arkiv.network/api/shadow-rpc/experimental` |
 
 Read budget: a check is 1 query (2 on a miss); every result is cached in IndexedDB; no polling. The in-app Inspector lists each query, reader, request count and timing.
