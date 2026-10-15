@@ -183,7 +183,7 @@ function Result({ T, lang, r, product, setProduct }) {
         {rest > 0 && <p class="small muted">{T("other_writers", { n: rest })}</p>}
       </>;
     })()}
-    <SaveBtn T={T} batch={r.batch} />
+    <SaveBtn T={T} batch={r.batch} /> <ShareBtn T={T} lang={lang} r={r} v={v} />
     <p class="small muted">{T("read_at", { b: num(r.block, lang), ms: r.ms })}</p>
   </div>;
 }
@@ -323,6 +323,16 @@ function About({ T, lang }) {
     <h3>{T("wallets")}</h3>
     <ul class="small mono">{Object.entries(W).map(([r, a]) => <li>{r}: <a href={`${EXPLORER}/address/${a}`} target="_blank" rel="noopener">{a}</a></li>)}</ul>
   </section>;
+}
+
+// Share the verdict as text (WhatsApp first: that is where drug-alert forwards travel in India). The link re-reads Arkiv when
+// opened, so a forward can never go stale the way a screenshot does. No tracking parameters.
+function ShareBtn({ T, lang, r, v }) {
+  const url = location.origin + location.pathname + "#/b/" + r.batch;
+  const who = [...new Set(v.alerts.map(e => pubName(e, lang)))].join(", ");
+  const text = T("share_text_" + v.level, { b: r.batch, p: v.alerts[0]?.a.pname || "", who }) + "\n" + T("share_caveat") + "\n" + url;
+  const go = async e => { if (navigator.share) { e.preventDefault(); try { await navigator.share({ text }); } catch { } } };
+  return <a class="save share" data-share={v.level} href={"https://wa.me/?text=" + encodeURIComponent(text)} target="_blank" rel="noopener" onClick={go}>↗ {T("share")}</a>;
 }
 
 function SaveBtn({ T, batch }) {

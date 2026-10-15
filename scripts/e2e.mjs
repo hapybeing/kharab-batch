@@ -31,6 +31,8 @@ ok("≤3 queries per check", n >= 1 && n <= 3, { inspector: insp.trim() });
 await page.click(".langs button[lang=en]");
 ok("English toggle", (await page.textContent("[data-verdict]")).includes("Failed a government lab test") && (await page.getAttribute("html", "lang")) === "en");
 await shot("sr13-en");
+const share = decodeURIComponent((await page.getAttribute("[data-share=red]", "href").catch(() => "")) || "");
+ok("WhatsApp share text: verdict + publisher + caveat + live link", share.startsWith("https://wa.me/?text=") && /SR13/.test(share) && /FAILED a government lab test/.test(share) && /Telangana/.test(share) && /#\/b\/SR13/.test(share));
 // Kannada (partial, machine-translated, labelled) on the result card, then back to English for the rest of the run
 await page.click(".langs button[lang=kn]");
 ok("Kannada result card + MT label", (await page.textContent("[data-verdict]")).includes("ವಿಫಲ") && (await page.$("[data-mt=kn]")) !== null && (await page.getAttribute("html", "lang")) === "kn");
