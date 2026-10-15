@@ -1,0 +1,6 @@
+Source MH · publisher A 0x25FD47556c8b93F98AC6fD0b53a9BD5648433b93 (Maharashtra FDA) 91 alerts · publisher B 0x1b793ad502b611e5e62cdc288f1741fc46166000 91 alerts (91 sealed)  (blocks 621970/621970)
+  91/91 of B's rows: same row identity and same row hash as A  → AGREE
+  0 same identity, different content
+  0 only in B
+  0 only in A (e.g. rows A sealed earlier whose printed expiry has since passed, so a fresh mirror skips them)
+Apps should SHOW agreement, never merge: each claim keeps its own $creator.

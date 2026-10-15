@@ -1,0 +1,13 @@
+mh: 165 rows fetched from https://fda.maharashtra.gov.in/nsq-alerts/ · 91 in date · 0 already published by 0x1b793aD502B611e5E62cdc288F1741fc46166000 · 91 to write
+  snapshot 0x87b3ca310af2954ed6902b69a94877d06fd25912d7b98c4601929730dd83a85d  tx 0x9ffdec9893c4f35f4fecb2bdd5e43612961c3f2c87fef5553d24004e6645b6da
+Transaction failed: Execution error without revert data
+mh: 165 rows fetched from https://fda.maharashtra.gov.in/nsq-alerts/ · 91 in date · 0 already published by 0x1b793aD502B611e5E62cdc288F1741fc46166000 · 91 to write
+  snapshot 0x87b3ca310af2954ed6902b69a94877d06fd25912d7b98c4601929730dd83a85d  tx (resumed)
+  +20 sealed alerts  tx 0x7671d40435f39b6b00dc331638e1b00092dea805a1a06732265d209099e678a9
+  +20 sealed alerts  tx 0x1b628ea6ea03f3bf8893fd0324c9a66d0ef22b07c793272f3ee1794cb882725e
+  +20 sealed alerts  tx 0x9af0753ae6dc2e42b854040946dbc5cbc3f2fe16d5fb3a821b9b301a1a654eec
+  +20 sealed alerts  tx 0x6643fe139ef4fd829cd17d3ec7f4139a70a7fa114ea3e7a1d19522f141b87aad
+  +11 sealed alerts  tx 0x84cd3e79a373ca42792b26e075167e29b9903cf4e70a5878e4f409eb19886738
+  91 alerts written, each sealed to 0x…dEaD in its creating batch
+  heartbeat 0x9278bd89f3ca9eea4e245a3b4a76601144028c1d2bc3e252cf514fbb02170653  tx 0x0b66294912723c904c350ac469b7355faf71957bf06cde73511e47b6389de210
+Done. Compare with the operator's mirror:  kharab agree --src mh --b 0x1b793aD502B611e5E62cdc288F1741fc46166000

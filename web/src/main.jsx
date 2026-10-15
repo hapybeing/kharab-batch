@@ -170,7 +170,18 @@ function Result({ T, lang, r, product, setProduct }) {
       <p class="small">{T("grey_scope")}</p>
       {r.near.length > 0 && <p class="small">{T("did_you_mean")} {r.near.map(e => <a class="pill" href={"#/b/" + e.a.batch}>{e.a.batch}</a>)}<br /><small class="muted">{T("near_note")}</small></p>}
     </>}
-    {v.other.length > 0 && <p class="small muted">{T("other_writers", { n: v.other.length })}</p>}
+    {(() => { // independent re-publishers: same row identity AND same row hash as a vetted publisher's alert. Shown, never merged into the verdict.
+      const vetted = new Map(v.alerts.map(e => [e.a.rid, e.a.row]));
+      const indep = v.other.filter(e => e.a.type === "alert" && vetted.has(e.a.rid) && vetted.get(e.a.rid) === e.a.row);
+      const differ = v.other.filter(e => e.a.type === "alert" && vetted.has(e.a.rid) && vetted.get(e.a.rid) !== e.a.row);
+      const rest = v.other.length - indep.length - differ.length;
+      const short = a => a.slice(0, 6) + "…" + a.slice(-4);
+      return <>
+        {indep.length > 0 && <p class="small" data-indep={indep.length}>✓ {T("indep_agree", { n: indep.length })} {[...new Set(indep.map(e => e.creator))].map(c => <a class="mono" href={`${EXPLORER}/address/${c}`} target="_blank" rel="noopener">{short(c)}</a>)}<br /><small class="muted">{T("indep_note")}</small></p>}
+        {differ.length > 0 && <p class="small" data-indep-differ={differ.length}>≠ {T("indep_differ", { n: differ.length })}</p>}
+        {rest > 0 && <p class="small muted">{T("other_writers", { n: rest })}</p>}
+      </>;
+    })()}
     <SaveBtn T={T} batch={r.batch} />
     <p class="small muted">{T("read_at", { b: num(r.block, lang), ms: r.ms })}</p>
   </div>;
@@ -300,6 +311,10 @@ function About({ T, lang }) {
     <p class="small muted">{T("hb_sub")}</p>
     {hb ? <ul class="list">{ROLES.map(([role]) => { const e = hb.entities.find(x => x.creator === low(W[role])); const last = e && blockToMs(e.expiresAt - (role === "WATCH" ? 36 : 30) * 3600 / BLOCK_S, hb.block); const h = e ? Math.max(0, Math.round((Date.now() - last) / 36e5)) : null;
       return <li data-hb={role} data-stale={e ? "0" : "1"}><span class="chip">{PUB[low(W[role])]?.[lang] || role}</span> {e ? T("hb_last", { h }) : <b class="warn">{T("hb_stale")}</b>}{e && /degraded/.test(e.a.mver) && <> · <b class="warn">{T("hb_degraded")}</b></>}<small class="mono"><a href={`${EXPLORER}/address/${W[role]}`} target="_blank" rel="noopener">{W[role]}</a></small></li>; })}</ul> : <p class="muted">{T("loading")}</p>}
+    {hb && (() => { const ours = new Set(Object.values(W).map(low)); const ind = hb.entities.filter(e => !ours.has(e.creator)).slice(0, 5);
+      return <><h3>{T("indep_title")}</h3><p class="small muted">{T("indep_sub")}</p>
+        {ind.length ? <ul class="list">{ind.map(e => { const last = blockToMs(e.expiresAt - 30 * 3600 / BLOCK_S, hb.block); const hh = Math.max(0, Math.round((Date.now() - last) / 36e5));
+          return <li data-hb-indep={e.creator}><span class="chip">{(e.a.src || "?").toUpperCase()}</span> {T("hb_last", { h: hh })} · {T("indep_label")} “{String(e.a.label || "—").slice(0, 40)}”<small class="mono"><a href={`${EXPLORER}/address/${e.creator}`} target="_blank" rel="noopener">{e.creator}</a></small></li>; })}</ul> : <p class="muted small">{T("indep_none")}</p>}</>; })()}
     <h3>{T("health")}</h3>
     <p class="small muted">{T("health_sub")}</p>
     {h ? <ul class="list">{h.list.map(s => { const st = h.st.get(s.key); return <li data-partial={st.partial ? "1" : "0"}><span class="chip">{s.a.src.toUpperCase()}</span> {fmtDate(s.a.fetched * 1000, lang)} · {T("snap_rows", { n: num(s.a.count, lang), k: num(s.a.new, lang) })} {st.partial && <b class="warn">{T("partial")}</b>}

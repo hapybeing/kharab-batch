@@ -38,6 +38,9 @@ ok("R01GL2523 red + not on national portal", (await page.getAttribute("[data-ver
 const rnd = "QZ" + Math.random().toString(36).slice(2, 8).toUpperCase();
 await page.goto(BASE + "#/b/" + rnd); await page.waitForSelector("[data-verdict]", { timeout: 15000 });
 ok("random → grey + caveat", (await page.getAttribute("[data-verdict]", "data-verdict")) === "grey" && (await page.textContent(".card")).includes("not a safety guarantee"), { batch: rnd });
+// independent mirror: an MH batch shows the third-party re-publisher with the same row hash (shown, not merged)
+await page.goto(BASE + "#/b/KT26012"); await page.waitForSelector("[data-verdict]", { timeout: 15000 });
+ok("KT26012 red + independent mirror agrees", (await page.getAttribute("[data-verdict]", "data-verdict")) === "red" && +(await page.getAttribute("[data-indep]", "data-indep").catch(() => 0)) >= 1);
 // gap ledger rows = Q4 count (compared with an independent raw count from Node)
 await page.goto(BASE + "#/gap"); await page.waitForSelector("[data-q4]", { timeout: 20000 });
 const q4 = +(await page.getAttribute("[data-q4]", "data-q4")); const rows = await page.$$eval(".list li", l => l.length);
@@ -63,6 +66,7 @@ await page.goto(BASE + "#/about"); await page.waitForSelector("[data-partial]", 
 ok("partial KA snapshot flagged", (await page.$$("[data-partial='1']")).length >= 1);
 await page.waitForTimeout(1500);
 const about = await page.textContent("body");
+ok("about: independent mirror listed with heartbeat", (await page.$$("[data-hb-indep]")).length >= 1);
 ok("about: heartbeat hours render (no [object Object])", !about.includes("[object Object]") && /≈\s*[\d.,०-९]+\s*(h|घं)/.test(about), { sample: (about.match(/.{0,30}≈.{0,30}/) || [""])[0] });
 ok("no console errors", errors.length === 0, { errors });
 out.fail = fail; console.log(JSON.stringify(out, null, 1));
