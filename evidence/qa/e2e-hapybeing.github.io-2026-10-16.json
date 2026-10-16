@@ -6,7 +6,7 @@
   },
   "SR-13 red ≤2 s": {
    "pass": true,
-   "ms": 877
+   "ms": 876
   },
   "SR-13 lag 48 days": {
    "pass": true
@@ -32,7 +32,7 @@
   },
   "random → grey + caveat": {
    "pass": true,
-   "batch": "QZHU0IYE"
+   "batch": "QZ6Z5583"
   },
   "KT26012 undated MH list: no 1900 date": {
    "pass": true
@@ -66,7 +66,7 @@
   },
   "about: heartbeat hours render (no [object Object])": {
    "pass": true,
-   "sample": ".CDSCO national list last ran ≈ 2 h ago0xC7bd0b3731ed69a3c769"
+   "sample": ".CDSCO national list last ran ≈ 6 h ago0xC7bd0b3731ed69a3c769"
   },
   "no console errors": {
    "pass": true,
