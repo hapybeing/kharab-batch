@@ -163,13 +163,13 @@ Each is checked against an archived at-release PDF, SHA-256 on chain.
 In seven months: at least 137 added, 6 reclassified, 3 removed.
 
 42
-00:02:20,186 --> 00:02:25,751
-13 Arkiv friction items, each reproduced, are in friction.md.
+00:02:20,186 --> 00:02:25,709
+14 Arkiv friction items, each reproduced, are in friction.md.
 
 43
-00:02:25,821 --> 00:02:30,648
+00:02:25,779 --> 00:02:30,606
 A lab result covers only the batch tested. Not medical advice.
 
 44
-00:02:30,718 --> 00:02:34,408
+00:02:30,676 --> 00:02:34,366
 Kharab Batch is live now, and open source on GitHub.
