@@ -1,0 +1,5 @@
+PASS  #2  cursor invalid once a block lands mid page-through  — after 1 pages: -32005 cursor belongs to a different query, block or select — start a new page-through
+PASS  #3  $createdAt: SDK builder rejects, raw RPC accepts  — SDK: "$createdAt" is returned in query results but carries no index, so it cannot be filtered on. Select it and filter the results in JavaScript instead.; raw: 100 hits
+PASS  #4  filtered count only via raw RPC, only as an object  — object form → 3009; bare string → -32602 invalid params: ErrorObject { code: InvalidParams, message: ; SDK getEntityCount declared params: 0
+PASS  #5  read-cost headers half there  — arkiv_query: arkiv-cost=100, quota header absent; getEntityCount: arkiv-cost absent; ratelimit=limit=600, remaining=585, reset=20; expose-headers=RateLimit, Retry-After, Link, Arkiv-Quota-Used-Percent, Arkiv-Cost
+PASS  #12  eth_getLogs capped at 100,000 blocks (even for one entity key)  — -32602 query exceeds max block range 100000

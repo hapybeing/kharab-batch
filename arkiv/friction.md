@@ -2,6 +2,7 @@
 
 Versions: `@arkiv-network/sdk@0.8.1`, `viem@2.57.5`, Node 22.23, Tiramisu chain 7738577 (node client `reth/v2.5.0-189c0df`), explorer `tiramisu.explorer.arkiv.network`. Dates are IST, 12–14 Oct 2026.
 Every item below was reproduced by us; raw output with timestamps is in [friction-log.md](friction-log.md), scripts in `scripts/spikes/d1.mjs` and `scripts/friction/`.
+**Re-check the read-only items yourself in ~30 s, no key, no writes:** `node scripts/friction/read-repros.mjs` prints one PASS/FAIL line each for #2, #3, #4, #5 and #12 (PASS = the behaviour we report still happens). Last run 16 Oct 2026 ~09:10 IST: 5/5 PASS ([output](../evidence/qa/friction-read-repros-2026-10-16.txt)). Write-side items (#1, #13, #14) have their own scripts, which need a funded key.
 
 ## Issues
 
@@ -16,7 +17,7 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 
 ### 2. Cursor pagination breaks when a block lands mid page-through
 - **Surface:** `arkiv_query` with `cursor`.
-- **Repro:** page 2,900 alerts with `limit 200` and no `atBlock`.
+- **Repro:** page 2,900 alerts with `limit 200` and no `atBlock` (`scripts/friction/read-repros.mjs`, item #2, pages at a realistic 1.2 s pace).
 - **Expected:** a cursor stays valid (it encodes its block), or docs say "pin `atBlock`".
 - **Actual:** `-32005 cursor belongs to a different query, block or select — start a new page-through` after a couple of pages (2 s blocks).
 - **Fix suggestion:** document it in the querying guide; have the SDK pin the first page's block.
@@ -29,12 +30,12 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 - **Fix suggestion:** either index it officially (it is the natural "new since my last visit" filter) or reject it on the node too.
 
 ### 4. Filtered counts only via raw RPC, and only as an object
-- **Surface:** `getEntityCount()` / `arkiv_getEntityCount`.
+- **Surface:** `getEntityCount()` / `arkiv_getEntityCount`. **Repro:** `read-repros.mjs` item #4.
 - **Actual:** SDK `getEntityCount()` takes no filter (returns chain-wide 2,089). Raw accepts `{query: "…"}`; a bare string → `-32602 … expected struct CountRequest`.
 - **Fix suggestion:** add `getEntityCount({ query })` to the SDK; accept the string form like `arkiv_query`.
 
 ### 5. Read-cost headers are half there
-- **Surface:** HTTP response headers of the public RPC (re-checked 14 Oct 11:05 IST with curl).
+- **Surface:** HTTP response headers of the public RPC (re-checked 14 Oct 11:05 IST with curl; **16 Oct update:** `Access-Control-Expose-Headers` now lists `Arkiv-Cost` and `Arkiv-Quota-Used-Percent`, so the CORS half of our request has landed; the quota header itself is still not sent on `arkiv_query`. Repro: `read-repros.mjs` item #5).
 - **Expected:** `Access-Control-Expose-Headers` lists `Arkiv-Cost` and `Arkiv-Quota-Used-Percent`, so a browser app can show its remaining budget.
 - **Actual:** `arkiv_query` returns `arkiv-cost: 100` but no `Arkiv-Quota-Used-Percent`; `arkiv_getEntityCount` returns neither. `ratelimit: limit=600, remaining=…` is present.
 - **Impact:** our budget meter has to count requests itself against the ~100-query / 39-min keyless budget (tech research, 12 Oct).
@@ -71,7 +72,7 @@ Every item below was reproduced by us; raw output with timestamps is in [frictio
 
 ### 12. `eth_getLogs` is capped at 100,000 blocks, which is only ~55 hours on Tiramisu
 - **Surface:** `eth_getLogs` on the public RPC (14 Oct, head ≈553,700).
-- **Repro:** `eth_getLogs({address: 0x44…44, fromBlock: "0x0", toBlock: "latest", topics: [ExpiryExtended, <entityKey>]})`.
+- **Repro:** `read-repros.mjs` item #12, or `eth_getLogs({address: 0x44…44, fromBlock: "0x0", toBlock: "latest", topics: [ExpiryExtended, <entityKey>]})`.
 - **Expected:** the full history of one entity's extensions (it is filtered to one key, so the result is tiny), or a documented limit.
 - **Actual:** `-32602 query exceeds max block range 100000`. With 2 s blocks that is ~55 h, so "who kept this record alive since it was created?" needs a window loop from `$createdAt`.
 - **Impact:** our Proof drawer's "Who extended this record?" (Q18) walks 100k-block windows from the entity's creation block, then reads `tx.from` per log (see #7).

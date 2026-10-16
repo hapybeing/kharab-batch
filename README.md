@@ -138,7 +138,7 @@ bash scripts/e2e-both.sh                # 17 phone-viewport acceptance checks on
 - Surge (`kharab-batch.surge.sh`): planned; the Surge CLI token could not be obtained from the build sandbox on 14 Oct (see the repo history).
 - The mirror runs on Hark's scheduler (00:40/06:40/12:40/18:40 IST) because Actions secrets can't be set from our tooling; every run commits `evidence/runs/*.json`.
 
-QA evidence: `evidence/qa/` (end-to-end run on the public URL, Lighthouse mobile: performance 96, accessibility 100, best practices 100 on 14 Oct).
+QA evidence: `evidence/qa/` (friction repro run: `node scripts/friction/read-repros.mjs`, 5/5 PASS, 16 Oct; end-to-end run on the public URL, Lighthouse mobile: performance 96, accessibility 100, best practices 100 on 14 Oct).
 
 ## Disclosure
 
