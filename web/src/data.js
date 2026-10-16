@@ -30,11 +30,18 @@ async function idbSet(k, v) {
   try { d.transaction("cache", "readwrite").objectStore("cache").put(v, k); } catch { }
 }
 
+// localStorage can throw (third-party iframe with storage blocked, Safari private mode): fall back to memory so the app still runs
+const memLS = new Map();
+export const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch { return memLS.get(k) ?? null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { memLS.set(k, v); } },
+};
+
 // ---- read budget: the public node allows ~100 keyless reads per IP per ~39 min (measured; arkiv/friction.md) ----
 export const BUDGET = 100, WINDOW_MS = 39 * 60e3;
-const stamps = () => JSON.parse(localStorage.getItem("kb_reads") || "[]").filter(t => Date.now() - t < WINDOW_MS);
+const stamps = () => JSON.parse(ls.get("kb_reads") || "[]").filter(t => Date.now() - t < WINDOW_MS);
 export const budgetUsed = () => stamps().length;
-function spend() { const s = stamps(); s.push(Date.now()); localStorage.setItem("kb_reads", JSON.stringify(s)); }
+function spend() { const s = stamps(); s.push(Date.now()); ls.set("kb_reads", JSON.stringify(s)); }
 
 // ---- inspector log ----
 export const LOG = [];
@@ -80,8 +87,8 @@ export async function run(id, q, fn, o = {}) {
 }
 
 // ---- local recents (never leave the phone) ----
-export const recents = () => JSON.parse(localStorage.getItem("kb_recent") || "[]");
-export function addRecent(b) { const r = [b, ...recents().filter(x => x !== b)].slice(0, 6); localStorage.setItem("kb_recent", JSON.stringify(r)); }
+export const recents = () => JSON.parse(ls.get("kb_recent") || "[]");
+export function addRecent(b) { const r = [b, ...recents().filter(x => x !== b)].slice(0, 6); ls.set("kb_recent", JSON.stringify(r)); }
 
 // ---- My list (IndexedDB only; never sent anywhere) ----
 export async function getList() { return (await idbGet("watchlist")) || []; }

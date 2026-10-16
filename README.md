@@ -88,6 +88,7 @@ Sample transactions: [EVIDENCE.md](EVIDENCE.md).
 | *Changed* tab | Jun 2026 **+34** rows added after release · May 2026 **2** moved to the spurious list · Dec 2025 **3** removed from every month, each with the sha256 of the archived at-release PDF |
 | *Share (WhatsApp)* on any result | the verdict, who published it, the caveat, and a link that re-reads Arkiv when opened (a forward can't go stale like a screenshot) |
 | *ಕನ್ನಡ* button | check + result screens in Kannada (machine-translated, labelled on screen; other screens fall back to English) |
+| *Embed* (About → "Put it on your shop, NGO or news page") | `<div data-kharab-batch data-lang="hi" data-batch="SR-13"></div><script async src="https://hapybeing.github.io/kharab-batch/widget.js"></script>` puts the same read-only check in a sandboxed iframe on any page (no cookies, no tracking). Verified: `node scripts/e2e-embed.mjs` |
 | *Inspector* (bottom of every screen) | the exact Arkiv queries each screen made: **1** for a hit, **2** for a miss, 0 when cached in IndexedDB |
 
 More CLI: `check <batch> --reader both` · `gap --src ka --min-days 60` · `changes --month 2026-06` · `snapshots` · `verify <entityKey>` (re-fetches the regulator's page and recomputes the row hash) · `mirror` · `agree`.

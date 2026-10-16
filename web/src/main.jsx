@@ -5,7 +5,7 @@ import { call } from "../../lib/read.mjs";
 import { query, queryAll, verdict, nationalLag, snapshotStatus, Q, normBatch, SELECT } from "../../lib/read.mjs";
 import W from "../../wallets.json";
 import { t, STR } from "./i18n.js";
-import { run, newCheck, LOG, onLog, budgetUsed, BUDGET, recents, addRecent, getList, setList } from "./data.js";
+import { run, newCheck, LOG, onLog, budgetUsed, BUDGET, recents, addRecent, getList, setList, ls } from "./data.js";
 import { startLive, onLive, STATS } from "./live.js";
 import "./style.css";
 
@@ -47,6 +47,9 @@ function lev(a, b) { // edit distance, for did-you-mean only (never red)
   return d[a.length][b.length];
 }
 
+// Embed mode (?embed=1&lang=hi|en|kn&batch=SR-13): the check + result only, for a pharmacy, NGO or newsroom page (public/widget.js wraps it in an iframe).
+const QS = new URLSearchParams(location.search);
+const EMBED = QS.get("embed") === "1";
 const route = () => {
   const h = location.hash;
   const m = h.match(/^#\/b\/([^/?]+)/);
@@ -55,11 +58,29 @@ const route = () => {
   return { tab: "check" };
 };
 
+function Embed() {
+  const want = QS.get("lang");
+  const [lang] = useState(["hi", "en", "kn"].includes(want) ? want : "hi");
+  const [r, setR] = useState(() => (location.hash.startsWith("#/b/") ? route() : { tab: "check", batch: QS.get("batch") || undefined }));
+  useEffect(() => { const f = () => setR(route()); addEventListener("hashchange", f); return () => removeEventListener("hashchange", f); }, []);
+  useEffect(() => { document.documentElement.lang = lang; document.title = t(lang, "doc_title"); }, [lang]);
+  useEffect(() => { // tell widget.js how tall the frame needs to be
+    const post = () => parent !== window && parent.postMessage({ kharab: "height", h: Math.ceil(document.querySelector(".wrap").getBoundingClientRect().height) + 16 }, "*");
+    const ro = new ResizeObserver(post); ro.observe(document.querySelector(".wrap")); post(); return () => ro.disconnect();
+  }, []);
+  const T = (k, v) => t(lang, k, v);
+  const full = location.origin + location.pathname + (r.batch ? "#/b/" + encodeURIComponent(r.batch) : "");
+  return <div class="wrap embed" data-embed="1">
+    <main><Check T={T} lang={lang} batch={r.batch} embed /></main>
+    <footer>{T("footer_embed")} · <a href={full} target="_blank" rel="noopener">{T("embed_open")}</a></footer>
+  </div>;
+}
+
 function App() {
-  const [lang, setLang] = useState(localStorage.getItem("kb_lang") || "hi");
+  const [lang, setLang] = useState(ls.get("kb_lang") || "hi");
   const [r, setR] = useState(route());
   useEffect(() => { const f = () => setR(route()); addEventListener("hashchange", f); return () => removeEventListener("hashchange", f); }, []);
-  useEffect(() => { localStorage.setItem("kb_lang", lang); document.documentElement.lang = lang; document.title = t(lang, "doc_title"); }, [lang]);
+  useEffect(() => { ls.set("kb_lang", lang); document.documentElement.lang = lang; document.title = t(lang, "doc_title"); }, [lang]);
   const [hit, setHit] = useState(null);
   useEffect(() => { startLive(getList); return onLive(ev => { if (ev.kind === "watch-hit") setHit(ev); }); }, []);
   const T = (k, v) => t(lang, k, v);
@@ -83,7 +104,7 @@ function App() {
   </div>;
 }
 
-function Check({ T, lang, batch }) {
+function Check({ T, lang, batch, embed }) {
   const [input, setInput] = useState(batch || "");
   const [res, setRes] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -124,7 +145,7 @@ function Check({ T, lang, batch }) {
     {err && <p class="err" role="alert">{err}</p>}
     {busy && <p class="muted" aria-live="polite">{T("loading")}</p>}
     {res && !busy && <Result T={T} lang={lang} r={res} product={product} setProduct={setProduct} />}
-    {!res && !busy && !batch && <Counters T={T} lang={lang} />}
+    {!res && !busy && !batch && !embed && <Counters T={T} lang={lang} />}
   </section>;
 }
 
@@ -320,6 +341,9 @@ function About({ T, lang }) {
     <p class="small muted">{T("health_sub")}</p>
     {h ? <ul class="list">{h.list.map(s => { const st = h.st.get(s.key); return <li data-partial={st.partial ? "1" : "0"}><span class="chip">{s.a.src.toUpperCase()}</span> {fmtDate(s.a.fetched * 1000, lang)} · {T("snap_rows", { n: num(s.a.count, lang), k: num(s.a.new, lang) })} {st.partial && <b class="warn">{T("partial")}</b>}
       {st.partial && <small>{T("partial_note", { n: num(s.a.count, lang) })}</small>}<small class="mono"><a href={`${EXPLORER}/entity/${s.key}`} target="_blank" rel="noopener">{short(s.key)}</a></small></li>; })}</ul> : <p class="muted">{T("loading")}</p>}
+    <h3>{T("embed_title")}</h3>
+    <p class="small muted">{T("embed_body")}</p>
+    <pre class="small mono" data-embed-snippet>{`<div data-kharab-batch data-lang="hi"></div>\n<script async src="${location.origin}${location.pathname}widget.js"></script>`}</pre>
     <h3>{T("wallets")}</h3>
     <ul class="small mono">{Object.entries(W).map(([r, a]) => <li>{r}: <a href={`${EXPLORER}/address/${a}`} target="_blank" rel="noopener">{a}</a></li>)}</ul>
   </section>;
@@ -376,4 +400,4 @@ function Inspector({ T }) {
   </details>;
 }
 
-render(<App />, document.getElementById("app"));
+render(EMBED ? <Embed /> : <App />, document.getElementById("app"));
