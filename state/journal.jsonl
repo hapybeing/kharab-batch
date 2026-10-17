@@ -300,3 +300,8 @@
 {"t":"2026-10-17T07:24:39.006Z","app":"kharab","role":"MIRROR_KA","op":"extend","tx":"0x263db302afa61c97d0d18a25354f32cb50244c4a33b83d539130149d482c71a7","block":686055,"gas":25240,"n":1}
 {"t":"2026-10-17T07:24:45.197Z","app":"kharab","role":"MIRROR_MH","op":"extend","tx":"0xa19e63eb40f65ce3b4367ba01fcc753d29d76dcb453b131e7c39be0d97af1499","block":686058,"gas":25240,"n":1}
 {"t":"2026-10-17T07:24:51.393Z","app":"kharab","role":"CURATOR","op":"extend","tx":"0x5ff8fb3a3d275878d63d13d7162cb4afd453f0a3e5d76ea6354ae670eca47a72","block":686061,"gas":25240,"n":1}
+{"t":"2026-10-17T13:12:57.138Z","app":"kharab","role":"WATCH","op":"extend","tx":"0x16cdd8a92d93f933ad6e2ffa0864e566f134b14b147e7ebd1768b305c47bf0c0","block":696504,"gas":2180000,"n":218}
+{"t":"2026-10-17T13:13:03.461Z","app":"kharab","role":"MIRROR_CDSCO","op":"extend","tx":"0xa6346cbeee71d6e7259cfc2a5643850365585e21ffa2536b812a6a7e2ce56ce0","block":696507,"gas":25240,"n":1}
+{"t":"2026-10-17T13:13:09.601Z","app":"kharab","role":"MIRROR_KA","op":"extend","tx":"0x37d1c91b49e70f88f28280d432df94a1c8cfc33190f8f43540edabc0b0c829e6","block":696510,"gas":25240,"n":1}
+{"t":"2026-10-17T13:13:15.710Z","app":"kharab","role":"MIRROR_MH","op":"extend","tx":"0x2002b7de4b97bb344c021ca0d7632c708a2665c9d8de076fe8c404b24733f892","block":696513,"gas":25240,"n":1}
+{"t":"2026-10-17T13:13:21.889Z","app":"kharab","role":"CURATOR","op":"extend","tx":"0xca632343a2525921e60b79612afb967e08b0c52d3dd3d7d0f0b52da36c81f0f7","block":696516,"gas":25240,"n":1}
