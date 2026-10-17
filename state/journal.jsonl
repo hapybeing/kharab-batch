@@ -287,3 +287,11 @@
 {"t":"2026-10-16T19:13:48.751Z","app":"kharab","role":"MIRROR_CDSCO","op":"extend","tx":"0x0aef7861acaa3ee2ad711ec2196954784a4b1e5ead46f0da29320a4f14d8e493","block":664130,"gas":25240,"n":1}
 {"t":"2026-10-16T19:13:55.115Z","app":"kharab","role":"MIRROR_KA","op":"extend","tx":"0x576a7c5e91b0e2de69dbf9bd0beba8219faa1a75abb402c500694e6fa7533752","block":664133,"gas":25240,"n":1}
 {"t":"2026-10-16T19:14:01.454Z","app":"kharab","role":"CURATOR","op":"extend","tx":"0x32a4a433d8cacdf277f328311a96cfef640dc9d8b4009d6a748c5754416bca94","block":664136,"gas":25240,"n":1}
+{"t":"2026-10-17T01:16:13.364Z","app":"kharab","role":"MIRROR_MH","op":"create+seal","tx":"0x461148ecd9d304ba60efc8c82266b7f102f4744c28c53d72ccde59b9bec44227","block":675002,"gas":211064,"n":1}
+{"t":"2026-10-17T01:16:20.311Z","app":"kharab","role":"MIRROR_MH","op":"create+seal","tx":"0x3d7765602d95ac79111d2cbca7438e799765f0bb2e1374be7e72f119677b0e8f","block":675005,"gas":780144,"n":4}
+{"t":"2026-10-17T01:16:27.017Z","app":"kharab","role":"WATCH","op":"create","tx":"0xa4f677788e2cd464276b5879be8c26781ef29df0b253d9a5b1b9f87d3feadeef","block":675009,"gas":507888,"n":4}
+{"t":"2026-10-17T01:16:33.814Z","app":"kharab","role":"WATCH","op":"extend","tx":"0x71db3cbde34176164708ed02ca5b564658c40097e2633a147fcbd3c4cf15e24c","block":675012,"gas":2140000,"n":214}
+{"t":"2026-10-17T01:16:40.327Z","app":"kharab","role":"MIRROR_CDSCO","op":"extend","tx":"0x7a61bb399bd4139c35101952b2ca00e0e2b0911abbab3823f06ab9e3bd64f4aa","block":675015,"gas":25240,"n":1}
+{"t":"2026-10-17T01:16:46.709Z","app":"kharab","role":"MIRROR_KA","op":"extend","tx":"0x6b0be436f0fd978dfc1efc4596d1c6315441460e229345a038e4bfe115cdc3e3","block":675019,"gas":25240,"n":1}
+{"t":"2026-10-17T01:16:53.067Z","app":"kharab","role":"MIRROR_MH","op":"extend","tx":"0x6b1d4bf9db79d3d11d9f18272986bd4324cf988a026f685a0d4588570554bb08","block":675022,"gas":25240,"n":1}
+{"t":"2026-10-17T01:16:59.453Z","app":"kharab","role":"CURATOR","op":"extend","tx":"0x7737722656cbd54097751c1bc84dc95d92aa71aa60f626fcd2c6952fe81c561f","block":675025,"gas":25240,"n":1}
