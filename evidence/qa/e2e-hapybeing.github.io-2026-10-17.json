@@ -1,0 +1,77 @@
+{
+ "base": "https://hapybeing.github.io/kharab-batch/",
+ "results": {
+  "hindi default": {
+   "pass": true
+  },
+  "SR-13 red ≤2 s": {
+   "pass": true,
+   "ms": 885
+  },
+  "SR-13 lag 48 days": {
+   "pass": true
+  },
+  "≤3 queries per check": {
+   "pass": true,
+   "inspector": "इंस्पेक्टर · इस जाँच में: 1 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 3/100 प्रति 39 मिनट"
+  },
+  "header fits at 360 px (all language buttons visible)": {
+   "pass": true
+  },
+  "English toggle": {
+   "pass": true
+  },
+  "WhatsApp share text: verdict + publisher + caveat + live link": {
+   "pass": true
+  },
+  "Kannada result card + MT label": {
+   "pass": true
+  },
+  "R01GL2523 red + not on national portal": {
+   "pass": true
+  },
+  "random → grey + caveat": {
+   "pass": true,
+   "batch": "QZXYG3Y6"
+  },
+  "KT26012 undated MH list: no 1900 date": {
+   "pass": true
+  },
+  "KT26012 red + independent mirror agrees": {
+   "pass": true
+  },
+  "gap: no Jan 1900 / 1900 dates": {
+   "pass": true
+  },
+  "gap: inspector header counts screen reads (not 'no reads yet')": {
+   "pass": true,
+   "inspector": "इंस्पेक्टर · इस स्क्रीन पर: 2 नेटवर्क क्वेरी, 0 कैश से · पठन बजट 2/100 प्रति 39 मिनट"
+  },
+  "gap rows = Q4": {
+   "pass": true,
+   "rows": 217,
+   "q4": 217
+  },
+  "changed feed counts + PDF sha": {
+   "pass": true,
+   "jun": "34",
+   "may": "2",
+   "dec": "3"
+  },
+  "partial KA snapshot flagged": {
+   "pass": true
+  },
+  "about: independent mirror listed with heartbeat": {
+   "pass": true
+  },
+  "about: heartbeat hours render (no [object Object])": {
+   "pass": true,
+   "sample": ".CDSCO national list last ran ≈ 0 h ago0xC7bd0b3731ed69a3c769"
+  },
+  "no console errors": {
+   "pass": true,
+   "errors": []
+  }
+ },
+ "fail": 0
+}

@@ -46,6 +46,8 @@ ok("R01GL2523 red + not on national portal", (await page.getAttribute("[data-ver
 // random string → grey + caveat
 const rnd = "QZ" + Math.random().toString(36).slice(2, 8).toUpperCase();
 await page.goto(BASE + "#/b/" + rnd); await page.waitForSelector("[data-verdict]", { timeout: 15000 });
+// hash-only navigation keeps the previous (red) card in the DOM for a moment: wait for the new verdict instead of reading the stale one
+await page.waitForFunction(() => document.querySelector("[data-verdict]")?.dataset.verdict === "grey", null, { timeout: 15000 }).catch(() => {});
 ok("random → grey + caveat", (await page.getAttribute("[data-verdict]", "data-verdict")) === "grey" && (await page.textContent(".card")).includes("not a safety guarantee"), { batch: rnd });
 // independent mirror: an MH batch shows the third-party re-publisher with the same row hash (shown, not merged)
 await page.goto(BASE + "#/b/KT26012"); await page.waitForSelector("[data-verdict]", { timeout: 15000 });

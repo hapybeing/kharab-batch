@@ -1,0 +1,42 @@
+{
+ "base": "https://kharab-batch.vercel.app/",
+ "results": {
+  "iframe sandboxed + titled": {
+   "pass": true
+  },
+  "embed: SR-13 red inside the frame": {
+   "pass": true
+  },
+  "embed: no nav / inspector / counters": {
+   "pass": true
+  },
+  "embed: opened no WebSocket (read-only, nothing subscribed)": {
+   "pass": true,
+   "wsCount": 0
+  },
+  "frame grew to fit the result (>260 px)": {
+   "pass": true,
+   "h": 1341
+  },
+  "footer link opens the full check": {
+   "pass": true,
+   "href": "https://kharab-batch.vercel.app/#/b/SR-13"
+  },
+  "frame height fits its content (no clipping, ≤ 40 px slack)": {
+   "pass": true,
+   "frame": 1341,
+   "content": 1319
+  },
+  "embed (hi, typed): red": {
+   "pass": true
+  },
+  "main app still has nav": {
+   "pass": true
+  },
+  "no console errors": {
+   "pass": true,
+   "errors": []
+  }
+ },
+ "fail": 0
+}
