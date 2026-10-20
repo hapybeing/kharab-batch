@@ -1,0 +1,49 @@
+{
+ "run": "host-2026-10-20T19:12",
+ "started": "2026-10-20T19:12:58.873Z",
+ "sources": {
+  "cdsco": {
+   "rows": 4420,
+   "live": 2507,
+   "expired": 1913,
+   "new": 0,
+   "missing_since_last": 0
+  },
+  "ka": {
+   "rows": 814,
+   "live": 295,
+   "expired": 519,
+   "new": 0,
+   "missing_since_last": 0
+  },
+  "mh": {
+   "rows": 170,
+   "live": 95,
+   "expired": 75,
+   "new": 0,
+   "missing_since_last": 0
+  },
+  "curated": {
+   "rows": 7,
+   "live": 7,
+   "expired": 0,
+   "new": 0,
+   "missing_since_last": 0
+  }
+ },
+ "watch": {
+  "state_rows": 333,
+  "new_links": 0,
+  "new_pending": 0,
+  "renewed": 218,
+  "renew_txs": [
+   {
+    "tx": "0xc61f7b93f09d7180d8f4207ae08e3b8a459bf0f014a240ddc856f9266f99235d",
+    "block": 836953,
+    "n": 219,
+    "gas": 2190000
+   }
+  ]
+ },
+ "finished": "2026-10-20T19:15:22.492Z"
+}
