@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://hapybeing.github.io/kharab-batch/"><b>🔴 Live app: hapybeing.github.io/kharab-batch</b></a><br>
+  <a href="https://kharab-batch.vercel.app">Mirror: kharab-batch.vercel.app</a> · <a href="https://hapybeing.github.io/kharab-batch/video/kharab-batch-demo.mp4">Demo video (2:36)</a>
+</p>
+
 # Kharab Batch? (ख़राब बैच?)
 
 **Type the batch number from a medicine strip or syrup bottle. If an Indian regulator failed that batch, the screen turns red and shows who published it, when it was first public (an Arkiv block nobody can backdate, including us), and whether the national list carries it. Hindi first (English, and machine-translated Kannada on the core screens), phone first, no login, no wallet.**
@@ -9,7 +14,7 @@
 | **Arkiv docs** | [arkiv/schema.md](arkiv/schema.md) (entities, attributes, lifetimes, every query) · [arkiv/friction.md](arkiv/friction.md) (14 issues, versions, repro) · [arkiv/drug-alert-1.md](arkiv/drug-alert-1.md) (open data contract) |
 | **Evidence** | [EVIDENCE.md](EVIDENCE.md): tx hashes, e2e runs on both URLs, CLI transcripts, third-party mirror run |
 | **Network** | Arkiv Tiramisu testnet (chain 7738577) · `@arkiv-network/sdk` 0.8.1 for writes, raw JSON-RPC for reads |
-| **Tracks** | Best Indian Use Case · Censorship Resistance · Open Source · Security |
+| **Built for** | Arkiv: Global Tour Stop (Oct 2026), a portfolio showcase |
 | **Licence** | MIT · built 12–18 Oct 2026 · AI-assisted (see Disclosure) |
 
 > Not medical advice and not an accusation: a public-interest index of what Indian regulators published, word for word.
